@@ -12,11 +12,13 @@ class Integrante_Curso(models.Model):
         return self.rut
 
 class curso(models.Model):
-    nombre=models.charField(max_length=10,not)
+    nombre=models.charField(max_length=10)
     seccion=models.IntegerField(default=1)
     anho=models.integerField()
     semestre=models.integerField(
         validators=[MaxValueValidator(3), MinValueValidator(1)]
     )
+    class Meta:
+        unique_together=(("nombre","seccion","anho","semestre"),)
     def __str__(self):
         return self.nombre"-"+self.seccion", semestre"+self.semestre+self.anho
