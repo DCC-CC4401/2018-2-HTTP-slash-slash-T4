@@ -72,4 +72,4 @@ class Coevaluacion(models.Model):
                 ("cerrada", "Cerrada"),
                 ("publicada", "Publicada"))
     estado= models.CharField(null=False, blank=False,choices= opciones)
->>>>>>> modelos-jose
+
