@@ -3,10 +3,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Curso(models.Model):
-    nombre = models.charField(max_length=10)
+    nombre = models.CharField(max_length=10)
     seccion = models.IntegerField(default=1)
-    anho = models.integerField()
-    semestre = models.integerField(
+    anho = models.IntegerField()
+    semestre = models.IntegerField(
         validators=[MaxValueValidator(3), MinValueValidator(1)]
     )
 
@@ -24,13 +24,13 @@ class Usuario(models.Model):
                            blank=False,
                            help_text='Ingrese rut sin puntos ni guión',
                            unique=True)
-    nombre = models.CharField(null=False, blank=False)
+    nombre = models.CharField(max_length=255, null=False, blank=False)
     correo = models.EmailField(null=False, blank=False)
 
 
 class Equipo(models.Model):
     curso_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    nombre = models.CharField(null=False, blank=False)
+    nombre = models.CharField(max_length=255, null=False, blank=False)
     historial = models.TextField(null=True, blank=True, unique=False)
 
     class Meta:
@@ -53,30 +53,30 @@ class Admin(models.Model):
 
 class Coevaluacion(models.Model):
     curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
-    numero = models.IntegerField(max_length=2, null=False, blank=False, unique=False)
+    numero = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(99)], null=False, blank=False, unique=False)
     fecha_inicio = models.DateField(null=False, blank=False)
     fecha_fin = models.DateField(null=False, blank=False)
     opciones = (("abierta", "Abierta"),
                 ("cerrada", "Cerrada"),
                 ("publicada", "Publicada"))
-    estado = models.CharField(null=False, blank=False, choices=opciones)
+    estado = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
 
 
 class Info_Coevaluacion(models.Model):
     curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
-    numero = models.ForeignKey(Coevaluacion, to_field="numero", on_delete=models.CASCADE)
+    coevaluacion_id = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
     rut_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     respondida = models.BooleanField(null=False)
     nota = models.FloatField(max_length=3, null=True, blank=True)
 
     class Meta:
-        unique_together = (("curso_id", "numero", "rut"),)
+        unique_together = (("curso_id", "coevaluacion_id", "rut_usuario"),)
 
 
 class Integrante_Curso(models.Model):
     rut = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
-    rol = models.charField(max_length=30)
+    rol = models.CharField(max_length=30)
 
     class Meta:
         unique_together = (("rut", "curso"),)
