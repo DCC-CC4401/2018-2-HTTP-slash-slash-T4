@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from coev import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index),
+    path('home/alumnos' ,views.homeVistaAlum),
+    path('home/docentes',views.homeVistaDoc),
+    path('docentes/curso',views.cursoVistaDoc),
+    path('docentes/coev', views.coevDoc),
+    path('alumnos/coev',views.coevAlm),
+    path('perfil',views.perfilVistaDueno),
+    path('docentes/perfil', views.cursoVistaDoc),
+    path('curso',views.cursoVistaAlm),
+
 ]
