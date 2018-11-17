@@ -16,7 +16,7 @@ class Curso(models.Model):
         unique_together = (("codigo", "seccion", "año", "semestre"),)
 
     def __str__(self):
-        return self.codigo + "-" + str(self.seccion) + " "  + self.nombre + " " + str(self.año) + ", " + str(self.semestre)
+        return self.codigo + "-" + str(self.seccion) + " "+ self.nombre + " " + str(self.año) + ", " + str(self.semestre)
 
 
 
@@ -60,19 +60,21 @@ class Integrante_Equipo(models.Model):
 class Admin(models.Model):
     usuario_rut = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.usuario_rut)
 
 class Coevaluacion(models.Model):
     curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
     numero = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(99)], null=False, blank=False, unique=False)
     fecha_inicio = models.DateField(null=False, blank=False)
     fecha_fin = models.DateField(null=False, blank=False)
-    opciones = (("abierta", "Abierta"),
-                ("cerrada", "Cerrada"),
-                ("publicada", "Publicada"))
+    opciones = (("Abierta", "Abierta"),
+                ("Cerrada", "Cerrada"),
+                ("Publicada", "Publicada"))
     estado = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
 
     def __str__(self):
-        return "coevaluación " + str(self.numero)
+        return "Coevaluación " + str(self.numero)
 
 
 class Info_Coevaluacion(models.Model):
@@ -85,14 +87,20 @@ class Info_Coevaluacion(models.Model):
     class Meta:
         unique_together = (("curso_id", "coevaluacion_id", "rut_usuario"),)
 
+    def __str__(self):
+        return str(self.rut_usuario) + " " + str(self.nota)
 
 class Integrante_Curso(models.Model):
     rut = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
-    rol = models.CharField(max_length=30)
+    opciones = (("Ayudante", "Ayudante"),
+                ("Profesor/a", "Profesor/a"),
+                ("Auxiliar", "Auxiliar"),
+                ("Estudiante", "Estudiante"))
+    rol = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
 
     class Meta:
         unique_together = (("rut", "curso"),)
 
     def __str__(self):
-        return self.rut
+        return str(self.rut)
