@@ -38,8 +38,8 @@ class Equipo(models.Model):
     nombre = models.CharField(max_length=255, null=False, blank=False)
     historial = models.TextField(null=True, blank=True, unique=False)
 
-    #class Meta:
-     #   unique_together = (("curso_id", "nombre"),)
+    class Meta:
+        unique_together = (("curso_id", "nombre"),)
 
     def __str__(self):
         return self.nombre + " | " + str(self.curso_id)
