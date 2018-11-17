@@ -33,7 +33,7 @@ class Usuario(models.Model):
         return self.nombre
 
 class Equipo(models.Model):
-    curso_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=255, null=False, blank=False)
     historial = models.TextField(null=True, blank=True, unique=False)
 
