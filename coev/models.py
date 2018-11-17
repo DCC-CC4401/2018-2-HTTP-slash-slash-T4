@@ -27,6 +27,8 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=255, null=False, blank=False)
     correo = models.EmailField(null=False, blank=False)
 
+    def __str__(self):
+        return self.nombre
 
 class Equipo(models.Model):
     curso_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -35,6 +37,9 @@ class Equipo(models.Model):
 
     class Meta:
         unique_together = (("curso_id", "nombre"),)
+
+    def __str__(self):
+        return self.nombre
 
 
 class Integrante_Equipo(models.Model):
@@ -45,6 +50,9 @@ class Integrante_Equipo(models.Model):
 
     class Meta:
         unique_together = (("equipo_id", "curso_id", "rut"),)
+
+    def __str__(self):
+        return str(self.rut)
 
 
 class Admin(models.Model):
@@ -60,6 +68,9 @@ class Coevaluacion(models.Model):
                 ("cerrada", "Cerrada"),
                 ("publicada", "Publicada"))
     estado = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
+
+    def __str__(self):
+        return "coevaluación " + str(self.numero)
 
 
 class Info_Coevaluacion(models.Model):
