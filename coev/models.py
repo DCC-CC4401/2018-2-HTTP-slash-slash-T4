@@ -19,6 +19,7 @@ class Curso(models.Model):
         return self.codigo + "-" + str(self.seccion) + " "  + self.nombre + " " + str(self.año) + ", " + str(self.semestre)
 
 
+
 class Usuario(models.Model):
     rut = models.CharField(max_length=10,
                            primary_key=True,
@@ -37,21 +38,20 @@ class Equipo(models.Model):
     nombre = models.CharField(max_length=255, null=False, blank=False)
     historial = models.TextField(null=True, blank=True, unique=False)
 
-    class Meta:
-        unique_together = (("curso_id", "nombre"),)
+    #class Meta:
+     #   unique_together = (("curso_id", "nombre"),)
 
     def __str__(self):
-        return self.nombre
+        return self.nombre + " | " + str(self.curso_id)
 
 
 class Integrante_Equipo(models.Model):
     equipo_id = models.ForeignKey(Equipo, on_delete=models.CASCADE)
-    curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
     rut = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = (("equipo_id", "curso_id", "rut"),)
+        unique_together = (("equipo_id", "rut"),)
 
     def __str__(self):
         return str(self.rut)
