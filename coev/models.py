@@ -3,18 +3,20 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Curso(models.Model):
-    nombre = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=100)
     seccion = models.IntegerField(default=1)
-    anho = models.IntegerField()
-    semestre = models.IntegerField(
-        validators=[MaxValueValidator(3), MinValueValidator(1)]
-    )
+    año = models.IntegerField()
+    opciones = (("Primavera", "Primavera"),
+                ("Otoño", "Otoño"),
+                ("Verano", "Verano"))
+    semestre = models.CharField(choices=opciones, max_length=30, null=False, blank=False, default=opciones[0][0])
+    codigo = models.CharField(max_length=10, null=False, blank=False)
 
     class Meta:
-        unique_together = (("nombre", "seccion", "anho", "semestre"),)
+        unique_together = (("codigo", "seccion", "año", "semestre"),)
 
     def __str__(self):
-        return self.nombre + "-" + self.seccion + ", semestre" + self.semestre + self.anho
+        return self.codigo + "-" + str(self.seccion) + " "  + self.nombre + " " + str(self.año) + ", " + str(self.semestre)
 
 
 class Usuario(models.Model):
