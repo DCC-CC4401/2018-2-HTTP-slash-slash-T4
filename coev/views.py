@@ -19,6 +19,9 @@ def homeVistaAlum(request):
 
 
 def homeVistaDoc(request):
+
+
+    
     coevaluaciones = Coevaluacion.objects.order_by('fecha_inicio')
 
     cursos= Curso.objects.order_by('año')
