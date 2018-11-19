@@ -361,3 +361,4 @@ $RECYCLE.BIN/
 
 .idea/
 .vscode/
+coev/migrations/*
