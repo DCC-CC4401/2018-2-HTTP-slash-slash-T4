@@ -19,7 +19,7 @@ from coev import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('', views.login, name='login'),
     path('home/alumnos' ,views.homeVistaAlum),
     path('home/docentes',views.homeVistaDoc),
     path('docentes/curso',views.cursoVistaDoc),
