@@ -6,13 +6,16 @@ from .models import Admin
 from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
+from .forms import LoginForm
+from django.http import HttpResponseRedirect
 
-# Create your views here.
-
-
-def index(request):
-    return render(request, "coev/login.html")
-
+def login(request):
+    if request.method == 'POST':
+        form= LoginForm(request.POST)
+        if form.is_valid():
+            #TODO: logear al usuario con django
+            return HttpResponseRedirect('/home/alumnos')
+    return render(request, "coev/login.html", {'form': LoginForm()})
 
 def homeVistaAlum(request):
     return render(request, "coev/home-vista-alumno.html")
