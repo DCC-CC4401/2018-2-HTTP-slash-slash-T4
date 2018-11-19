@@ -1,6 +1,5 @@
 from django.shortcuts import render , redirect
 from .models import Curso
-from .models import Usuario
 from .models import Equipo
 from .models import Integrante_Equipo
 from .models import Admin
