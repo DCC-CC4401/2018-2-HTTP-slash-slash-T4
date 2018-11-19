@@ -1,4 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
+from .models import Curso
+from .models import Usuario
+from .models import Equipo
+from .models import Integrante_Equipo
+from .models import Admin
+from .models import Coevaluacion
+from .models import Info_Coevaluacion
+from .models import Integrante_Curso
 
 # Create your views here.
 
@@ -12,8 +20,10 @@ def homeVistaAlum(request):
 
 
 def homeVistaDoc(request):
+    coevaluaciones = Coevaluacion.objects.order_by('fecha_inicio')
+    return render(request, "coev/home-vista-profesor.html", {'coev': coevaluaciones})
 
-    return render(request, "coev/home-vista-profesor.html")
+
 
 def cursoVistaDoc(request):
 

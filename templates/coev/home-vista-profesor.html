@@ -151,154 +151,40 @@
 
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                                {% for i in coev %}
                                 <tr>
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        25:72 13/05/25
+                                        {{ i.fecha_inicio }}
                                         <!-- Ícono de lápiz -->
                                         <a href="#" title="Editar fecha de inicio"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}" alt="editar fecha" width="13" height="13"></a>
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>Tarea del futuro</td>
+                                    <td>{{ i.nombre }}</td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
                                         <div class="cargos cargos-profesor tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
+                                        <span class="curso-nombre">{{ i.curso_id }}</span>
                                         <br>
-                                        <span class="curso-codigo">CC4401-1</span>
+                                        <span class="curso-codigo">{{ i.curso_id.codigo }}</span>
                                     </td>
                                     <!-- Semestre -->
-                                    <td>2025-1</td>
+                                    <td>{{ i.curso_id.semestre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        23:59 20/05/25
+                                        {{ i.fecha_fin }}
                                         <!-- Ícono de lápiz -->
                                         <a href="#" title="Editar fecha límite"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}"  alt="editar fecha" width="13" height="13"></a>
                                     </td>
                                     <!-- Estado -->
-                                    <td>Cerrada</td>
+                                    <td>{{ i.estado }}</td>
                                     <!-- Ícono de acción (vacío) -->
                                     <td></td>
                                 </tr>
-                                <tr>
-                                    <td class="td-fecha">
-                                        12:03 11/11/18
-                                        <a href="#" title="Editar fecha de inicio"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}" alt="editar fecha" width="13" height="13"></a>
-                                    </td>
-                                    <td>Tarea con nombre muy largo que ocupa todo el espacio</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-auxiliar tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2018-2</td>
-                                    <td class="td-fecha">
-                                        23:59 21/11/18
-                                        <a href="#" title="Editar fecha límite"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}"  alt="editar fecha" width="13" height="13"></a>
-                                    </td>
-                                    <td>Abierta</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="tr-pendiente"> <!-- Fila destacada como Pendiente -->
-                                    <td class="td-fecha">15:15 10/11/18</td>
-                                    <td>Trabajo Grupal 1</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Proyecto de Software</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5402-1</span>
-                                    </td>
-                                    <td>2018-2</td>
-                                    <td class="td-fecha">23:59 19/11/18</td>
-                                    <td>Pendiente</td>
-                                    <!-- Ícono de acción (Responder) -->
-                                    <td class="td-icon">
-                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">
-                                        20:45 08/10/18
-                                        <a href="#" title="Editar fecha de inicio"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}" alt="editar" width="13" height="13"></a>
-                                    </td>
-                                    <td>Tarea 1</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-auxiliar tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2018-2</td>
-                                    <td class="td-fecha">
-                                        23:59 16/10/18
-                                        <a href="#" title="Editar fecha límite"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}" alt="editar" width="13" height="13"></a>
-                                    </td>
-                                    <td>Cerrada</td>
-                                    <td class="td-icon">
-                                        <a href="#" title="Publicar resultados"><img class="clickable-icon publish-icon wiggle" src="{% static "icon/publish-icon.png" %}" alt="Publicar resultados" width="28" height="28"></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">16:27 26/05/18</td>
-                                    <td>Presentación Final</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
-                                    </td>
-                                    <td>2018-1</td>
-                                    <td class="td-fecha">23:59 03/06/18</td>
-                                    <td>Publicada</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">10:28 01/06/17</td>
-                                    <td>Tarea 2</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-1</td>
-                                    <td class="td-fecha">23:59 08/06/17</td>
-                                    <td>Publicada</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">03:32 15/05/17</td>
-                                    <td>Tarea 1</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-1</td>
-                                    <td class="td-fecha">23:59 21/05/17</td>
-                                    <td>Publicada</td>
-                                    <td></td>
-                                </tr>
-                                <!-- Filas vacías, placeholder -->
-                                <tr style="height: 38px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                <tr style="height: 38px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                <tr style="height: 38px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                {% endfor %}
+
                             </tbody>
                         </table>
                     </div>
