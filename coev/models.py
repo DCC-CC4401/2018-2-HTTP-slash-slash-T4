@@ -16,7 +16,7 @@ class Curso(models.Model):
         unique_together = (("codigo", "seccion", "año", "semestre"),)
 
     def __str__(self):
-        return self.codigo + "-" + str(self.seccion) + " "+ self.nombre + " " + str(self.año) + ", " + str(self.semestre)
+        return self.nombre + " " + str(self.año) + ", " + str(self.semestre)
 
 
 
@@ -64,6 +64,7 @@ class Admin(models.Model):
         return str(self.usuario_rut)
 
 class Coevaluacion(models.Model):
+    nombre = models.CharField(max_length=200, null=False, blank= True)
     curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
     numero = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(99)], null=False, blank=False, unique=False)
     fecha_inicio = models.DateField(null=False, blank=False)
