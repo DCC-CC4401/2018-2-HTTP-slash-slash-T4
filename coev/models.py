@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -33,7 +34,7 @@ class Equipo(models.Model):
 
 class Integrante_Equipo(models.Model):
     equipo_id = models.ForeignKey(Equipo, on_delete=models.CASCADE)
-    rut = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    rut = models.ForeignKey(User, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
     class Meta:
@@ -44,7 +45,7 @@ class Integrante_Equipo(models.Model):
 
 
 class Admin(models.Model):
-    usuario_rut = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    usuario_rut = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.usuario_rut)
@@ -67,7 +68,7 @@ class Coevaluacion(models.Model):
 class Info_Coevaluacion(models.Model):
     curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
     coevaluacion_id = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
-    rut_usuario = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    rut_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     respondida = models.BooleanField(null=False)
     nota = models.FloatField(max_length=3, null=True, blank=True)
 
@@ -78,7 +79,7 @@ class Info_Coevaluacion(models.Model):
         return str(self.rut_usuario) + " " + str(self.nota)
 
 class Integrante_Curso(models.Model):
-    rut = models.ForeignKey(models.User, on_delete=models.CASCADE)
+    rut = models.ForeignKey(User, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     opciones = (("Ayudante", "Ayudante"),
                 ("Profesor/a", "Profesor/a"),
