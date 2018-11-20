@@ -7,15 +7,22 @@ from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .forms import LoginForm
-from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate
 
 def login(request):
     if request.method == 'POST':
         form= LoginForm(request.POST)
         if form.is_valid():
-            #TODO: logear al usuario con django
-            return HttpResponseRedirect('/home/alumnos')
-    return render(request, "coev/login.html", {'form': LoginForm()})
+            usuario= authenticate(username= form.cleaned_data['rut'],
+                                password= form.cleaned_data['clave'])
+            if usuario is not None:
+                request.session['usuario']= usuario.username
+                return redirect('/home/alumnos')
+
+        return render(request, "coev/login.html", {'form': LoginForm(), 'error': True})
+                
+    else:
+        return render(request, "coev/login.html", {'form': LoginForm(), 'error': False})
 
 def homeVistaAlum(request):
     return render(request, "coev/home-vista-alumno.html")
