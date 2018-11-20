@@ -101,23 +101,19 @@
                     <div class="form-row">
                         <div class="form-group col-2">
                             <label for="codigoCurso">Código del curso</label>
-                            <input type="text" class="form-control" id="codigoCurso" placeholder="ej: CC4401">
+                            {{formCurso.codigo}}
                         </div>
                         <div class="form-group col-1">
                             <label for="seccionCurso">Sección</label>
-                            <input type="number" class="form-control" id="seccionCurso" value="1" placeholder="">
+                            {{formCurso.seccion}}
                         </div>
                         <div class="form-group col-1 offset-1">
                             <label for="annoCurso">Año</label>
-                            <input type="text" class="form-control" id="annoCurso" placeholder="ej: 2018">
+                            {{formCurso.año}}
                         </div>
                         <div class="form-group col-3">
                             <label for="semestreCurso">Semestre</label>
-                            <select id="semestreCurso" class="form-control">
-                                <option selected>Seleccione un semestre...</option>
-                                <option>Otoño - Primer semestre</option>
-                                <option>Primavera - Segundo semestre</option>
-                            </select>
+                            {{formCurso.semestre}}
                         </div>
                     </div>
                     <button type="submit" action="Curso" class="btn btn-primary-custom">Confirmar</button>

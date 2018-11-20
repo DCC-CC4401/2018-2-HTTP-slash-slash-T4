@@ -7,6 +7,8 @@ from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .forms import LoginForm
+
+from .forms import CrearCurso   
 from django.http import HttpResponseRedirect
 
 def login(request):
@@ -27,10 +29,12 @@ def homeVistaDoc(request):
     
     coevaluaciones = Coevaluacion.objects.order_by('fecha_inicio')
 
-    cursos= Curso.objects.order_by('año')
+    cursos = Curso.objects.order_by('año')
+    formCurso = CrearCurso()
 
     return render(request, "coev/home-vista-profesor.html", {'coev': coevaluaciones,
-                                                             'cursos': cursos})
+                                                             'cursos': cursos,
+                                                             'formCurso':formCurso})
 
 
 
