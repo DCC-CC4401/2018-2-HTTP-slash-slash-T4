@@ -25,6 +25,16 @@ def homeVistaAlum(request):
 
 def homeVistaDoc(request):
 
+    if request.method == 'POST':
+        if request.POST['agregar']=='Curso':
+            form=CrearCurso(request.POST)
+            if form.is_valid():
+                curso_nombre=form.cleaned_data['codigo']
+                curso_seccion=form.cleaned_data['seccion']
+                curso_año=form.cleaned_data['año']
+                curso_semestre=form.cleaned_data['semestre']
+                nuevo_curso=Curso(nombre='PH',seccion=curso_seccion, año=curso_año,semestre=curso_semestre,codigo=curso_nombre)
+                nuevo_curso.save()
 
     
     coevaluaciones = Coevaluacion.objects.order_by('fecha_inicio')
