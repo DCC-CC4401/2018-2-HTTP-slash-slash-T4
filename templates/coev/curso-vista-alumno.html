@@ -44,7 +44,7 @@
             <h3 class="d-inline-block page-title">Ficha de Curso</h3>
             <h5 class="mb-3">
                 <div class="cargos cargos-alumno"></div>
-                CC4401-1 Ingeniería de Software 2018, Primavera
+                {{curso.codigo}}-{{curso.seccion}} {{curso.nombre}} {{curso.año}}, {{curso.semestre}}
             </h5>
             <hr/>
             <!-- Tablas de resumen -->
@@ -68,6 +68,26 @@
 
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                                {% for coev in coevs %}
+                                <tr class="tr-pendiente"> <!-- Fila destacada como Pendiente -->
+                                        <!-- Fecha de inicio -->
+                                        <td class="td-fecha">
+                                            {{coev.fecha_inicio}}
+                                        </td>
+                                        <!-- Título de coevaluación -->
+                                        <td>{{coev_nombre}}</td>
+                                        <!-- Fecha de término -->
+                                        <td class="td-fecha">
+                                            23:59 20/12/18
+                                        </td>
+                                        <!-- Estado -->
+                                        <td>Pendiente</td>
+                                        <!-- Ícono de acción (responder) -->
+                                        <td class="td-icon">
+                                            <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
                                 <tr class="tr-pendiente"> <!-- Fila destacada como Pendiente -->
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">

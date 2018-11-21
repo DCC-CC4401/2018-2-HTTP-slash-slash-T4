@@ -38,9 +38,13 @@ def cursoVistaDoc(request):
 
     return render(request, "coev/curso-vista-docente.html")
 
-def cursoVistaAlm(request):
+def cursoVistaAlm(request,year,semestre,curso,seccion):
+    curso=Curso.objects.get(codigo=curso,año=year, semestre=semestre,seccion=seccion )
+    coevs=Coevaluacion.objects.filter(curso_id=curso.id)
+    #coevsRespondidas=Coevaluacion.objects.filter(curso_id=curso.id)
 
-    return render(request, "coev/curso-vista-alumno.html")
+
+    return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs})
 
 def coevDoc(request):
 
