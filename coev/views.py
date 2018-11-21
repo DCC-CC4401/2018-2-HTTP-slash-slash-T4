@@ -16,7 +16,8 @@ def login(request):
             usuario= authenticate(username= form.cleaned_data['rut'],
                                 password= form.cleaned_data['clave'])
             if usuario is not None:
-                request.session['usuario']= usuario.username
+                if usuario.is_superuser:
+                    return redirect('/admin/')
                 return redirect('/home/alumnos')
 
         return render(request, "coev/login.html", {'form': LoginForm(), 'error': True})
