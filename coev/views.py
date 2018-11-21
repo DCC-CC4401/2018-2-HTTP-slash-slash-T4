@@ -51,8 +51,14 @@ def coevAlm(request):
     return render(request, "coev/coevaluacion-vista-alumno.html")
 
 def perfilVistaDueno(request):
+    usuario=request.user
+    cursos= Integrante_Curso.filter(rut__exact=usuario.username).objects.order_by('año').order_by('semestre')
+    datosCurso=Curso.filter()
 
-    return render(request,"coev/perfil-vista-dueno.html")
+
+    #.filter(rut__exact=usuario.username)
+
+    return render(request,"coev/perfil-vista-dueno.html",{'usuario':usuario, 'cursos':cursos})
 
 def perfilVistaDoc(request):
 

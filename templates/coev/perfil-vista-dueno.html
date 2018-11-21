@@ -51,13 +51,12 @@
                 <div class="col-md-3 mb-3">
                     <h4 class="d-inline-block mt-1">Tu Perfil</h4>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Nombre</h6>
-                    <span>Juanito Juan Pérez Pereira</span>
+                    <span>{{usuario.first_name}} {{usuario.last_name}}</span>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">RUT</h6>
-                    <span>12.345.678-9</span>
+                    <span>{{usuario.rut}}</span>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Correo Electrónico</h6>
-                    <span>lorem@ipsum.com</span>
+                    <span>{{usuario.email}}</span>
                     <button type="button" id="change-pass-btn" class="btn btn-secondary mt-3 d-block" onclick="changePass()">Cambiar contraseña</button>
-                    <span class="small">(clickeable)</span>
                 </div>
                 <!-- FIN Perfil -->
 
@@ -76,39 +75,23 @@
                             </thead>
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                                {% for curso in cursos %}
                                 <tr id="row-btn" onclick="showNotas()">
                                     <td class="td-curso-full">
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">Proyecto de Software (clickeable)</span>
+                                        <span class="curso-nombre">{{curso.nombre}}</span>
                                         <br>
-                                        <span class="curso-codigo">CC5402-1</span>
+                                        <span class="curso-codigo">{{curso.codigo}}-{{curso.seccion}}</span>
                                     </td>
-                                    <td>2018-2</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
+                                    <td>{{curso.año}}-{% if curso.semestre == 'Primavera' %}{{ "2" }}
+                                                      {% elif curso.semestre == 'Otoño' %}{{"1"}}
+                                                      {% else %}{{"3"}}
+                                                      {% endif %}
                                     </td>
-                                    <td>2018-1</td>
                                 </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-2</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
