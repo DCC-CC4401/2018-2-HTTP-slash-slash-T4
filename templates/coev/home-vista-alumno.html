@@ -26,11 +26,11 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Juanito Pérez</a>
+                        <a class="nav-link" href="#">{{ usuario.first_name }} {{ usuario.last_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
                     </li>
                 </ul>
             </div>
@@ -63,143 +63,66 @@
 
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
-                                <tr class="tr-pendiente"> <!-- Fila destacada como Pendiente -->
+                                {% for i in coev %}
+                                    {% if i.coevaluacion_id.estado == 'Abierta' %}
+                                <tr>
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        20:01 01/12/18
+                                        {{ i.coevaluacion_id.fecha_inicio }}
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>Tarea final</td>
+                                    <td>{{ i.curso_id.nombre }}</td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">Proyecto de Software</span>
+                                        <span class="curso-nombre">{{ i.curso_id.nombre }}</span>
                                         <br>
-                                        <span class="curso-codigo">CC5402-1</span>
+                                        <span class="curso-codigo">{{ i.curso_id.codigo }}</span>
                                     </td>
                                     <!-- Semestre -->
-                                    <td>2018-2</td>
+                                    <td>{{ i.curso_id.semestre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        23:59 20/12/18
+                                        {{ i.coevaluacion_id.fecha_fin }}
                                     </td>
                                     <!-- Estado -->
-                                    <td>Pendiente</td>
+                                    <td>{{ i.coevaluacion_id.estado }}</td>
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
                                         <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                 </tr>
-                                <tr class="tr-pendiente">
+                                    {% endif %}
+                                    {% if i.coevaluacion_id.estado == 'Cerrada' or  i.coevaluacion_id.estado == 'Publicada' %}
+                                    <tr>
+                                    <!-- Fecha de inicio -->
+                                        <td class="td-fecha">
+                                        {{ i.coevaluacion_id.fecha_inicio }}
+                                    </td>
+                                    <!-- Título de coevaluación -->
+                                    <td>{{ i.coevaluacion_id.nombre }}</td>
+                                    <!-- Curso, con ícono de rol, nombre y código -->
+                                    <td class="td-curso-full">
+                                        <div class="cargos cargos-alumno tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        <span class="curso-nombre">{{ i.curso_id.nombre }}</span>
+                                        <br>
+                                        <span class="curso-codigo">{{ i.curso_id.codigo }}</span>
+                                    </td>
+                                    <!-- Semestre -->
+                                    <td>{{ i.curso_id.semestre }}</td>
+                                    <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        12:03 11/11/18
+                                        {{ i.coevaluacion_id.fecha_fin }}
                                     </td>
-                                    <td>Tarea con nombre muy largo que ocupa todo el espacio</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Proyecto de Software</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5402-1</span>
-                                    </td>
-                                    <td>2018-2</td>
-                                    <td class="td-fecha">
-                                        23:59 21/11/18
-                                    </td>
-                                    <td>Pendiente</td>
-                                    <td class="td-icon">
-                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a>
-                                    </td>
+                                    <!-- Estado -->
+                                    <td>{{ i.coevaluacion_id.fecha_fin }}</td>
                                 </tr>
-                                <tr>
-                                    <td class="td-fecha">15:15 10/11/18</td>
-                                    <td>Trabajo Grupal 1</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Proyecto de Software</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5402-1</span>
-                                    </td>
-                                    <td>2018-2</td>
-                                    <td class="td-fecha">23:59 19/11/18</td>
-                                    <td>Cerrada</td>
-                                    <td class="td-icon">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">
-                                        20:45 04/06/18
-                                    </td>
-                                    <td>Tarea 1</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
-                                    </td>
-                                    <td>2018-1</td>
-                                    <td class="td-fecha">
-                                        23:59 11/06/18
-                                    </td>
-                                    <td>Publicada</td>
-                                    <td>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">16:27 26/05/18</td>
-                                    <td>Presentación Final</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
-                                    </td>
-                                    <td>2018-1</td>
-                                    <td class="td-fecha">23:59 03/06/18</td>
-                                    <td>Publicada</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">10:28 01/06/17</td>
-                                    <td>Tarea 2</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-1</td>
-                                    <td class="td-fecha">23:59 08/06/17</td>
-                                    <td>Publicada</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-fecha">03:32 15/05/17</td>
-                                    <td>Tarea 1</td>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-1</td>
-                                    <td class="td-fecha">23:59 21/05/17</td>
-                                    <td>Publicada</td>
-                                    <td></td>
-                                </tr>
+                                    {% endif %}
+                                {% endfor %}
                                 <!-- Filas vacías, placeholder -->
                                 <tr style="height: 38px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                                 <tr style="height: 38px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -223,39 +146,21 @@
                             </thead>
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
+                                {% for i in cursos %}
+                                    {% if i.rol == 'Estudiante' %}
                                 <tr>
                                     <td class="td-curso-full">
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">Proyecto de Software</span>
+                                        <span class="curso-nombre">{{ i.curso.nombre }}</span>
                                         <br>
-                                        <span class="curso-codigo">CC5402-1</span>
+                                        <span class="curso-codigo">{{ i.curso.codigo }} {{ i.curso.seccion }}</span>
                                     </td>
-                                    <td>2018-2</td>
+                                    <td>{{ i.curso.año }}{{ '-' }}{{ i.curso.seccion }}</td>
                                 </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software II</span>
-                                        <br>
-                                        <span class="curso-codigo">CC5401-1</span>
-                                    </td>
-                                    <td>2018-1</td>
-                                </tr>
-                                <tr>
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">Ingeniería de Software I</span>
-                                        <br>
-                                        <span class="curso-codigo">CC4401-1</span>
-                                    </td>
-                                    <td>2017-1</td>
-                                </tr>
+                                    {% endif %}
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

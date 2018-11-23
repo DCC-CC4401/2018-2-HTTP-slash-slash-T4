@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.utils import timezone
 
 class Curso(models.Model):
     nombre = models.CharField(max_length=100)
@@ -34,21 +34,21 @@ class Equipo(models.Model):
 
 class Integrante_Equipo(models.Model):
     equipo_id = models.ForeignKey(Equipo, on_delete=models.CASCADE)
-    rut = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = (("equipo_id", "rut"),)
+        unique_together = (("equipo_id", "usuario"),)
 
     def __str__(self):
-        return str(self.rut)
+        return str(self.usuario)
 
 
 class Admin(models.Model):
-    usuario_rut = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.usuario_rut)
+        return str(self.usuario)
 
 class Coevaluacion(models.Model):
     nombre = models.CharField(max_length=200, null=False, blank= True)
@@ -59,6 +59,8 @@ class Coevaluacion(models.Model):
     opciones = (("Abierta", "Abierta"),
                 ("Cerrada", "Cerrada"),
                 ("Publicada", "Publicada"))
+    hora_inicio = models.TimeField(null=False,blank=False, default=timezone.now)
+    hora_fin = models.TimeField(null=False,blank=False, default=timezone.now)
     estado = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
 
     def __str__(self):
@@ -68,18 +70,18 @@ class Coevaluacion(models.Model):
 class Info_Coevaluacion(models.Model):
     curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
     coevaluacion_id = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
-    rut_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     respondida = models.BooleanField(null=False)
     nota = models.FloatField(max_length=3, null=True, blank=True)
 
     class Meta:
-        unique_together = (("curso_id", "coevaluacion_id", "rut_usuario"),)
+        unique_together = (("curso_id", "coevaluacion_id", "usuario"),)
 
     def __str__(self):
-        return str(self.rut_usuario) + " " + str(self.nota)
+        return str(self.usuario) + " " + str(self.nota)
 
 class Integrante_Curso(models.Model):
-    rut = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     opciones = (("Ayudante", "Ayudante"),
                 ("Profesor/a", "Profesor/a"),
@@ -88,7 +90,7 @@ class Integrante_Curso(models.Model):
     rol = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
 
     class Meta:
-        unique_together = (("rut", "curso"),)
+        unique_together = (("usuario", "curso"),)
 
     def __str__(self):
-        return str(self.rut)
+        return str(self.usuario)

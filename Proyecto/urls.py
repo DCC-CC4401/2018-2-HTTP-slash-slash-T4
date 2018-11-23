@@ -19,14 +19,15 @@ from coev import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.login, name='login'),
-    path('home/alumnos' ,views.homeVistaAlum),
-    path('home/docentes',views.homeVistaDoc),
-    path('docentes/curso',views.cursoVistaDoc),
-    path('docentes/coev', views.coevDoc),
-    path('alumnos/coev',views.coevAlm),
-    path('perfil',views.perfilVistaDueno),
-    path('docentes/perfil', views.cursoVistaDoc),
-    path('curso',views.cursoVistaAlm),
+    path('', views.auth_login, name='login'),
+    path('home/alumnos' ,views.homeVistaAlum, name='homeAlumnos'),
+    path('home/docentes',views.homeVistaDoc, name='homeDocentes'),
+    path('docentes/curso',views.cursoVistaDoc, name='cursoDocentes'),
+    path('docentes/coev', views.coevDoc, name='coevDocentes'),
+    path('alumnos/coev',views.coevAlm, name='coevalumnos'),
+    path('perfil',views.perfilVistaDueno, name='perfilDueno'),
+    path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
+    path('curso',views.cursoVistaAlm, name='cursoAlumnos'),
+    path('logout', views.auth_logout, name='logout'),
 
 ]

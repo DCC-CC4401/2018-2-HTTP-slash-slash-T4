@@ -7,40 +7,44 @@ from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .forms import LoginForm
-from django.contrib.auth import authenticate
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
 
-def login(request):
+
+def auth_login(request):
     if request.method == 'POST':
-        form= LoginForm(request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            usuario= authenticate(username= form.cleaned_data['rut'],
-                                password= form.cleaned_data['clave'])
+            usuario = authenticate(username=form.cleaned_data['rut'],
+                                   password=form.cleaned_data['clave'])
             if usuario is not None:
+                login(request, usuario)
                 if usuario.is_superuser:
                     return redirect('/admin/')
                 return redirect('/home/alumnos')
 
         return render(request, "coev/login.html", {'form': LoginForm(), 'error': True})
-                
+
     else:
         return render(request, "coev/login.html", {'form': LoginForm(), 'error': False})
 
+def auth_logout(request):
+        logout(request)
+        return render(request, "coev/login.html")
+
+
 def homeVistaAlum(request):
-    return render(request, "coev/home-vista-alumno.html")
+    user = request.user
+    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user)
+    infoCurso = Integrante_Curso.objects.filter(rut=request.user)
+
+    return render(request, "coev/home-vista-alumno.html",{'coev': infoCoev,
+                                                          'cursos': infoCurso, 'usuario':user})
 
 
 def homeVistaDoc(request):
 
-
-    
-    coevaluaciones = Coevaluacion.objects.order_by('fecha_inicio')
-
-    cursos= Curso.objects.order_by('año')
-
-    return render(request, "coev/home-vista-profesor.html", {'coev': coevaluaciones,
-                                                             'cursos': cursos})
-
-
+    return render(request, "coev/home-vista-profesor.html")
 
 def cursoVistaDoc(request):
 
