@@ -7,10 +7,10 @@ class Curso(models.Model):
     nombre = models.CharField(max_length=100)
     seccion = models.IntegerField(default=1)
     año = models.IntegerField()
-    opciones = (("Primavera", "Primavera"),
-                ("Otoño", "Otoño"),
-                ("Verano", "Verano"))
-    semestre = models.CharField(choices=opciones, max_length=30, null=False, blank=False, default=opciones[0][0])
+    opciones = ((1, "Otoño"),
+                (2, "Primavera"),
+                (3, "Verano"))
+    semestre = models.IntegerField(choices=opciones, null=False, blank=False)
     codigo = models.CharField(max_length=10, null=False, blank=False)
 
     class Meta:
