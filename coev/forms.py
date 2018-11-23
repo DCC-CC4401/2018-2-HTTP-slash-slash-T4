@@ -11,5 +11,3 @@ class LoginForm(forms.Form):
                                                     'placeholder': 'Contraseña',
                                                     'id': 'inputPassword'}))
 
-class CursoForm(forms.Form):
-    
