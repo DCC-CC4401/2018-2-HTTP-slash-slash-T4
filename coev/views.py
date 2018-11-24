@@ -14,7 +14,7 @@ def login(request):
         form= LoginForm(request.POST)
         if form.is_valid():
             #TODO: logear al usuario con django
-            return HttpResponseRedirect('/home/alumnos')
+            return HttpResponseRedirect('/curso/2018/Primavera/CC4401/1')
     return render(request, "coev/login.html", {'form': LoginForm()})
 
 def homeVistaAlum(request):
@@ -38,13 +38,14 @@ def cursoVistaDoc(request):
 
     return render(request, "coev/curso-vista-docente.html")
 
-def cursoVistaAlm(request,year,semestre,curso,seccion):
-    curso=Curso.objects.get(codigo=curso,año=year, semestre=semestre,seccion=seccion )
-    coevs=Coevaluacion.objects.filter(curso_id=curso.id)
-    #coevsRespondidas=Coevaluacion.objects.filter(curso_id=curso.id)
+def cursoVistaAlm(request,year,semestre,codigo,seccion):
 
+    curso=Curso.objects.get(codigo=codigo,año=year, semestre=semestre,seccion=seccion)
+    coevs=Coevaluacion.objects.filter(curso_id=curso.id).filter(info_coevaluacion__respondida=False)
+    #.filter(info_coevaluacion__rut_usuario=request.user)
+    Resto=Coevaluacion.objects.filter(curso_id=curso.id).exclude(info_coevaluacion__respondida=False)
 
-    return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs})
+    return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto})
 
 def coevDoc(request):
 

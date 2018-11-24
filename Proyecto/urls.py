@@ -27,6 +27,6 @@ urlpatterns = [
     path('alumnos/coev',views.coevAlm),
     path('perfil',views.perfilVistaDueno),
     path('docentes/perfil', views.cursoVistaDoc),
-    path('curso/<int:year>/<str:semestre>/<str:curso>/<int:seccion>',views.cursoVistaAlm),
+    path('curso/<int:year>/<str:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaAlm),
 
 ]
