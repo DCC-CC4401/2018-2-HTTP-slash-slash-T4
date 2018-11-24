@@ -30,7 +30,7 @@ def auth_login(request):
 
 def auth_logout(request):
         logout(request)
-        return render(request, "coev/login.html")
+        return redirect('/')
 
 
 def homeVistaAlum(request):
@@ -59,8 +59,9 @@ def coevDoc(request):
     return render(request,"coev/coevaluacion-vista-docente.html")
 
 def coevAlm(request):
+    user = request.user
 
-    return render(request, "coev/coevaluacion-vista-alumno.html")
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user})
 
 def perfilVistaDueno(request):
 

@@ -64,7 +64,7 @@
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
                                 {% for i in coev %}
-                                    {% if i.coevaluacion_id.estado == 'Abierta' %}
+                                    {% if i.coevaluacion_id.estado == 'Abierta' and i.respondida == False %}
                                 <tr>
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
@@ -93,6 +93,33 @@
                                     <td class="td-icon">
                                         <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
+                                </tr>
+                                    {% endif %}
+                                    {% if i.coevaluacion_id.estado == 'Abierta' and i.respondida == True %}
+                                    <tr>
+                                    <!-- Fecha de inicio -->
+                                        <td class="td-fecha">
+                                        {{ i.coevaluacion_id.fecha_inicio }}
+                                    </td>
+                                    <!-- Título de coevaluación -->
+                                    <td>{{ i.coevaluacion_id.nombre }}</td>
+                                    <!-- Curso, con ícono de rol, nombre y código -->
+                                    <td class="td-curso-full">
+                                        <div class="cargos cargos-alumno tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        <span class="curso-nombre">{{ i.curso_id.nombre }}</span>
+                                        <br>
+                                        <span class="curso-codigo">{{ i.curso_id.codigo }}</span>
+                                    </td>
+                                    <!-- Semestre -->
+                                    <td>{{ i.curso_id.semestre }}</td>
+                                    <!-- Fecha de término -->
+                                    <td class="td-fecha">
+                                        {{ i.coevaluacion_id.fecha_fin }}
+                                    </td>
+                                    <!-- Estado -->
+                                    <td>{{ i.coevaluacion_id.fecha_fin }}</td>
                                 </tr>
                                     {% endif %}
                                     {% if i.coevaluacion_id.estado == 'Cerrada' or  i.coevaluacion_id.estado == 'Publicada' %}
