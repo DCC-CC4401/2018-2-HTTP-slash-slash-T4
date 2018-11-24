@@ -73,6 +73,7 @@
                                     <td>{{ i.coevaluacion.nombre }}</td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
+
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
@@ -91,7 +92,7 @@
                                     {% if i.coevaluacion.estado == 'Abierta' and i.respondida == False %}
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
-                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
+                                        <a href="{% url  %}" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                      {% endif %}
                                 {% endfor %}
@@ -119,19 +120,35 @@
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
                                 {% for i in cursos %}
-                                    {% if i.rol == 'Estudiante' %}
                                 <tr>
                                     <td class="td-curso-full">
+                                        {% if i.rol == 'Estudiante' %}
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
+                                        {% endif %}
+                                        {% if i.rol == 'Profesor/a' %}
+                                        <div class="cargos cargos-profesor tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        {% endif %}
+                                        {% if i.rol == 'Ayudante' %}
+                                        <div class="cargos cargos-ayudante tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        {% endif %}
+                                        {% if i.rol == 'Auxiliar' %}
+                                        <div class="cargos cargos-auxiliar tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        {% endif %}
                                         <span class="curso-nombre">{{ i.curso.nombre }}</span>
                                         <br>
                                         <span class="curso-codigo">{{ i.curso.codigo }} {{ i.curso.seccion }}</span>
                                     </td>
                                     <td>{{ i.curso.año }}{{ '-' }}{{ i.curso.seccion }}</td>
                                 </tr>
-                                    {% endif %}
+
                                 {% endfor %}
                             </tbody>
                         </table>
