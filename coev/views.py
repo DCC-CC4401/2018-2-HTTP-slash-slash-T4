@@ -2,7 +2,6 @@ from django.shortcuts import render , redirect
 from .models import Curso
 from .models import Equipo
 from .models import Integrante_Equipo
-from .models import Admin
 from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
@@ -66,6 +65,8 @@ def perfilVistaDueno(request):
     if not request.user.is_authenticated:
         redirect('/')
     cursos= Curso.objects.filter(integrante_curso__usuario=request.user.id)
+    for curso in cursos:
+        curso.info_coevaluaciones= Info_Coevaluacion.objects.filter(usuario= request.user.id, curso= curso.id, coevaluacion__estado='Publicada')
     contexto= {'cursos': cursos}
     return render(request,"coev/perfil-vista-dueno.html", contexto)
 
