@@ -27,7 +27,7 @@ urlpatterns = [
     path('alumnos/coev',views.coevAlm, name='coevalumnos'),
     path('perfil',views.perfilVistaDueno, name='perfilDueno'),
     path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
-    path('curso',views.cursoVistaAlm, name='cursoAlumnos'),
+    path('curso/<int:year>/<str:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaAlm, name='cursoAlumnos'),
     path('logout', views.auth_logout, name='logout'),
 
 ]
