@@ -64,8 +64,11 @@ def coevAlm(request):
     return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user})
 
 def perfilVistaDueno(request):
-
-    return render(request,"coev/perfil-vista-dueno.html")
+    if not request.user.is_authenticated:
+        redirect('/')
+    cursos= Curso.objects.filter(integrante_curso__usuario=request.user.id)
+    contexto= {'cursos': cursos}
+    return render(request,"coev/perfil-vista-dueno.html", contexto)
 
 def perfilVistaDoc(request):
 

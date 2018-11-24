@@ -10,4 +10,3 @@ class LoginForm(forms.Form):
                         widget=forms.PasswordInput(attrs={'class':'form-control',
                                                     'placeholder': 'Contraseña',
                                                     'id': 'inputPassword'}))
-
