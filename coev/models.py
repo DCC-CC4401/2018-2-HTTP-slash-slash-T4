@@ -21,24 +21,24 @@ class Curso(models.Model):
 
 
 class Equipo(models.Model):
-    curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=255, null=False, blank=False)
     historial = models.TextField(null=True, blank=True, unique=False)
 
     class Meta:
-        unique_together = (("curso_id", "nombre"),)
+        unique_together = (("curso", "nombre"),)
 
     def __str__(self):
         return self.nombre + " | " + str(self.curso_id)
 
 
 class Integrante_Equipo(models.Model):
-    equipo_id = models.ForeignKey(Equipo, on_delete=models.CASCADE)
+    equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = (("equipo_id", "usuario"),)
+        unique_together = (("equipo", "usuario"),)
 
     def __str__(self):
         return str(self.usuario)
@@ -52,7 +52,7 @@ class Admin(models.Model):
 
 class Coevaluacion(models.Model):
     nombre = models.CharField(max_length=200, null=False, blank= True)
-    curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     numero = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(99)], null=False, blank=False, unique=False)
     fecha_inicio = models.DateField(null=False, blank=False)
     fecha_fin = models.DateField(null=False, blank=False)
@@ -68,14 +68,14 @@ class Coevaluacion(models.Model):
 
 
 class Info_Coevaluacion(models.Model):
-    curso_id = models.ForeignKey(Curso, on_delete=models.CASCADE)
-    coevaluacion_id = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     respondida = models.BooleanField(null=False)
     nota = models.FloatField(max_length=3, null=True, blank=True)
 
     class Meta:
-        unique_together = (("curso_id", "coevaluacion_id", "usuario"),)
+        unique_together = (("curso", "coevaluacion", "usuario"),)
 
     def __str__(self):
         return str(self.usuario) + " " + str(self.nota)
