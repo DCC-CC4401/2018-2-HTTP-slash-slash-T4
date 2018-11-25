@@ -6,8 +6,9 @@ from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .forms import LoginForm
-from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+import json
 
 
 def auth_login(request):
@@ -73,3 +74,15 @@ def perfilVistaDueno(request):
 def perfilVistaDoc(request):
 
     return render(request,"coev/perfil-alumno-vista-docente.html")
+
+def cambiarClave(request):
+    if not request.user.is_authenticated or request.method != 'POST':
+        return JsonResponse({'ok': False})
+    usuario= authenticate(username=request.user.get_username(),password=request.POST['clave-antigua'])
+    if usuario is not None:
+        usuario.set_password(request.POST['clave-nueva'])
+        usuario.save()
+        update_session_auth_hash(request, usuario)
+        return JsonResponse({'ok': True})
+    else:
+        return JsonResponse({'ok': False})

@@ -33,6 +33,8 @@ function changePass() {
     document.getElementById("notas-placeholder").style.display = "none";
     document.getElementById("change-pass-btn").classList.add("active");
     document.getElementById("row-btn").classList.remove("active");
+    const alert = document.getElementById('alert-clave');
+    alert.style.display= "none";
 }
 
 function showNotas(idCurso, codigo, semestre) {

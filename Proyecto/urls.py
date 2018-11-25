@@ -29,5 +29,5 @@ urlpatterns = [
     path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
     path('curso',views.cursoVistaAlm, name='cursoAlumnos'),
     path('logout', views.auth_logout, name='logout'),
-
+    path('cambiar_clave', views.cambiarClave, name='cambiarClave'),
 ]
