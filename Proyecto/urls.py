@@ -22,12 +22,12 @@ urlpatterns = [
     path('', views.auth_login, name='login'),
     path('home/alumnos' ,views.homeVistaAlum, name='homeAlumnos'),
     path('home/docentes',views.homeVistaDoc, name='homeDocentes'),
-    path('docentes/curso',views.cursoVistaDoc, name='cursoDocentes'),
+    path('docentes/curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaDoc, name='cursoDocentes'),
     path('docentes/coev', views.coevDoc, name='coevDocentes'),
     path('alumnos/coev',views.coevAlm, name='coevalumnos'),
     path('perfil',views.perfilVistaDueno, name='perfilDueno'),
     path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
-    path('curso/<int:year>/<str:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaAlm, name='cursoAlumnos'),
+    path('curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaAlm, name='cursoAlumnos'),
     path('logout', views.auth_logout, name='logout'),
 
 ]

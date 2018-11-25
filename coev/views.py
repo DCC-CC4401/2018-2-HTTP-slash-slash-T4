@@ -9,7 +9,7 @@ from .models import Integrante_Curso
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-
+from  .forms import CoevForm
 
 def auth_login(request):
     if request.method == 'POST':
@@ -46,17 +46,45 @@ def homeVistaDoc(request):
 
     return render(request, "coev/home-vista-profesor.html")
 
-def cursoVistaDoc(request):
-
-    return render(request, "coev/curso-vista-docente.html")
+def cursoVistaDoc(request,year,semestre,codigo,seccion):
+    
+    ramo=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
+    validator=Integrante_Curso.objects.filter(curso=ramo).exclude(rol="Estudiante").filter(usuario=request.user)
+    if validator:
+        if request.method=='POST':
+            if 'CursoAgregar' in request.POST:
+                nuevaCoev=Coevaluacion()
+                nuevaCoev.curso=ramo
+                nuevaCoev.estado="Abierta"
+                nuevaCoev.fecha_fin=request.POST['fecha_fin']
+                nuevaCoev.fecha_inicio=request.POST['fecha_inicio']
+                nuevaCoev.hora_fin=request.POST['hora_fin']
+                nuevaCoev.hora_inicio=request.POST['hora_inicio']
+                nuevaCoev.nombre=request.POST['nombreCoev']            
+                infoCo = Coevaluacion.objects.filter(curso=ramo).order_by('numero')
+                listaCoev=list(infoCo.values_list('numero', flat=True))
+                if(not listaCoev):
+                    nuevaCoev.numero=0
+                else:
+                    nuevaCoev.numero=listaCoev[-1]+1
+                nuevaCoev.save()
+            if 'pk' in request.POST:
+                coev=Coevaluacion.objects.get(id=request.POST['pk'])
+                print(request.POST['pk'])
+                coev.estado="Publicada"
+                coev.save()
+        Coevs = Coevaluacion.objects.filter(curso=ramo).order_by('-numero')
+        return render(request, "coev/curso-vista-docente.html",{'curso':ramo,'coevs':Coevs})
+    else:
+        return redirect('/home/alumnos')
 
 
 def cursoVistaAlm(request,year,semestre,codigo,seccion):
 
-    curso=Curso.objects.get(codigo=codigo,año=year, semestre=semestre,seccion=seccion)
-    coevs=Coevaluacion.objects.filter(curso_id=curso.id).filter(info_coevaluacion__respondida=False)
-    #.filter(info_coevaluacion__rut_usuario=request.user)
-    Resto=Coevaluacion.objects.filter(curso_id=curso.id).exclude(info_coevaluacion__respondida=False)
+    curso=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
+    coevs=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user).filter(info_coevaluacion__respondida=False)
+    
+    Resto=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user).exclude(info_coevaluacion__respondida=False)
 
     return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto})
 
