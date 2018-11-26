@@ -29,6 +29,6 @@ urlpatterns = [
     path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
     path('curso',views.cursoVistaAlm, name='cursoAlumnos'),
     path('logout', views.auth_logout, name='logout'),
-    path('coevaluacion/<int:id>/', views.fichaCoev, name='fichaCoevAlumnos')
-
+    path('cambiar_clave', views.cambiarClave, name='cambiarClave'),
+    path('coevaluacion/<int:id>/', views.fichaCoev, name='fichaCoevAlumnos'),
 ]

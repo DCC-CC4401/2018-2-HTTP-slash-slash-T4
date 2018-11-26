@@ -17,7 +17,7 @@ class Curso(models.Model):
         unique_together = (("codigo", "seccion", "año", "semestre"),)
 
     def __str__(self):
-        return self.nombre + " " + str(self.año) + ", " + str(self.semestre)
+        return self.nombre + " " + self.codigo + "-" + str(self.seccion) + ", " + str(self.año) + "-" + str(self.semestre)
 
 
 class Equipo(models.Model):
@@ -39,16 +39,11 @@ class Integrante_Equipo(models.Model):
 
     class Meta:
         unique_together = (("equipo", "usuario"),)
+        verbose_name_plural = "Integrantes Equipos"
 
     def __str__(self):
         return str(self.usuario)
 
-
-class Admin(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.usuario)
 
 class Coevaluacion(models.Model):
     nombre = models.CharField(max_length=200, null=False, blank= True)
@@ -63,8 +58,12 @@ class Coevaluacion(models.Model):
     hora_fin = models.TimeField(null=False,blank=False, default=timezone.now)
     estado = models.CharField(max_length=20, null=False, blank=False, choices=opciones)
 
+    class Meta:
+        verbose_name_plural = "Coevaluaciones"
+        unique_together = (("curso", "numero"),)
+
     def __str__(self):
-        return "Coevaluación " + str(self.numero)
+        return "Coevaluación " + str(self.numero) + " " + str(self.curso)
 
 
 class Info_Coevaluacion(models.Model):
@@ -76,9 +75,11 @@ class Info_Coevaluacion(models.Model):
 
     class Meta:
         unique_together = (("curso", "coevaluacion", "usuario"),)
+        verbose_name_plural = "Info coevaluaciones"
 
     def __str__(self):
         return str(self.usuario) + " " + str(self.nota)
+
 
 class Integrante_Curso(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,6 +92,7 @@ class Integrante_Curso(models.Model):
 
     class Meta:
         unique_together = (("usuario", "curso"),)
+        verbose_name_plural = "Integrantes Cursos"
 
     def __str__(self):
         return str(self.usuario)
