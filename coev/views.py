@@ -14,6 +14,8 @@ import json
 
 
 def auth_login(request):
+    if request.user.is_authenticated:
+        return redirect('/home/alumnos')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -31,8 +33,8 @@ def auth_login(request):
         return render(request, "coev/login.html", {'form': LoginForm(), 'error': False})
 
 def auth_logout(request):
-        logout(request)
-        return redirect('/')
+    logout(request)
+    return redirect('/')
 
 
 def homeVistaAlum(request):
