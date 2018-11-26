@@ -26,7 +26,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">{{ usuario.first_name }} {{ usuario.last_name }}</a>
+                        <a class="nav-link" href={% url 'perfilDueno' %}>{{ usuario.first_name }} {{ usuario.last_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
@@ -62,66 +62,39 @@
                             </thead>
 
                             <!-- Cuerpo de tabla (Table Data) -->
-                            <tbody>
+                            <tbody id="body-tabla-coev">
                                 {% for i in coev %}
-                                    {% if i.coevaluacion_id.estado == 'Abierta' %}
-                                <tr>
+                                <tr data-id-coev="{{ i.coevaluacion.id }}">
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        {{ i.coevaluacion_id.fecha_inicio }}
+                                        {{ i.coevaluacion.fecha_inicio }}
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>{{ i.curso_id.nombre }}</td>
+                                    <td>{{ i.coevaluacion.nombre }}</td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
+
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
-                                        <span class="curso-nombre">{{ i.curso_id.nombre }}</span>
+                                        <span class="curso-nombre">{{ i.curso.nombre }}</span>
                                         <br>
-                                        <span class="curso-codigo">{{ i.curso_id.codigo }}</span>
+                                        <span class="curso-codigo">{{ i.curso.codigo }}</span>
                                     </td>
                                     <!-- Semestre -->
-                                    <td>{{ i.curso_id.semestre }}</td>
+                                    <td>{{ i.curso.semestre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        {{ i.coevaluacion_id.fecha_fin }}
+                                        {{ i.coevaluacion.fecha_fin }}
                                     </td>
                                     <!-- Estado -->
-                                    <td>{{ i.coevaluacion_id.estado }}</td>
+                                    <td>{{ i.coevaluacion.estado }}</td>
+                                    {% if i.coevaluacion.estado == 'Abierta' and i.respondida == False %}
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
-                                        <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
+                                        <a href="{% url 'fichaCoevAlumnos' i.coevaluacion.id %}" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
-                                </tr>
-                                    {% endif %}
-                                    {% if i.coevaluacion_id.estado == 'Cerrada' or  i.coevaluacion_id.estado == 'Publicada' %}
-                                    <tr>
-                                    <!-- Fecha de inicio -->
-                                        <td class="td-fecha">
-                                        {{ i.coevaluacion_id.fecha_inicio }}
-                                    </td>
-                                    <!-- Título de coevaluación -->
-                                    <td>{{ i.coevaluacion_id.nombre }}</td>
-                                    <!-- Curso, con ícono de rol, nombre y código -->
-                                    <td class="td-curso-full">
-                                        <div class="cargos cargos-alumno tooltip-custom">
-                                            <span class="tooltiptext"></span>
-                                        </div>
-                                        <span class="curso-nombre">{{ i.curso_id.nombre }}</span>
-                                        <br>
-                                        <span class="curso-codigo">{{ i.curso_id.codigo }}</span>
-                                    </td>
-                                    <!-- Semestre -->
-                                    <td>{{ i.curso_id.semestre }}</td>
-                                    <!-- Fecha de término -->
-                                    <td class="td-fecha">
-                                        {{ i.coevaluacion_id.fecha_fin }}
-                                    </td>
-                                    <!-- Estado -->
-                                    <td>{{ i.coevaluacion_id.fecha_fin }}</td>
-                                </tr>
-                                    {% endif %}
+                                     {% endif %}
                                 {% endfor %}
                                 <!-- Filas vacías, placeholder -->
                                 <tr style="height: 38px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -147,19 +120,35 @@
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
                                 {% for i in cursos %}
-                                    {% if i.rol == 'Estudiante' %}
                                 <tr>
                                     <td class="td-curso-full">
+                                        {% if i.rol == 'Estudiante' %}
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
+                                        {% endif %}
+                                        {% if i.rol == 'Profesor/a' %}
+                                        <div class="cargos cargos-profesor tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        {% endif %}
+                                        {% if i.rol == 'Ayudante' %}
+                                        <div class="cargos cargos-ayudante tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        {% endif %}
+                                        {% if i.rol == 'Auxiliar' %}
+                                        <div class="cargos cargos-auxiliar tooltip-custom">
+                                            <span class="tooltiptext"></span>
+                                        </div>
+                                        {% endif %}
                                         <span class="curso-nombre">{{ i.curso.nombre }}</span>
                                         <br>
                                         <span class="curso-codigo">{{ i.curso.codigo }} {{ i.curso.seccion }}</span>
                                     </td>
                                     <td>{{ i.curso.año }}{{ '-' }}{{ i.curso.seccion }}</td>
                                 </tr>
-                                    {% endif %}
+
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -168,7 +157,8 @@
             </div>
 
         </div>
-            
+
+    <script src="{% static "js/home-vista-alumno.js" %}"></script>
     </body>
     </html>
         

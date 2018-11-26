@@ -30,7 +30,7 @@ def auth_login(request):
 
 def auth_logout(request):
         logout(request)
-        return render(request, "coev/login.html")
+        return redirect('/')
 
 
 def homeVistaAlum(request):
@@ -39,16 +39,18 @@ def homeVistaAlum(request):
     infoCurso = Integrante_Curso.objects.filter(usuario=request.user)
 
     return render(request, "coev/home-vista-alumno.html",{'coev': infoCoev,
-                                                          'cursos': infoCurso, 'usuario':user})
-
+                                                          'cursos': infoCurso, 
+                                                          'usuario':user})
 
 def homeVistaDoc(request):
 
     return render(request, "coev/home-vista-profesor.html")
 
+
 def cursoVistaDoc(request):
 
     return render(request, "coev/curso-vista-docente.html")
+
 
 def cursoVistaAlm(request):
 
@@ -58,22 +60,30 @@ def coevDoc(request):
 
     return render(request,"coev/coevaluacion-vista-docente.html")
 
-def coevAlm(request):
 
-    return render(request, "coev/coevaluacion-vista-alumno.html")
+def coevAlm(request):
+    user = request.user
+    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user)
+
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user,'coev': infoCoev})
+
 
 def perfilVistaDueno(request):
     if not request.user.is_authenticated:
         redirect('/')
     cursos= Curso.objects.filter(integrante_curso__usuario=request.user.id)
     for curso in cursos:
-        curso.info_coevaluaciones= Info_Coevaluacion.objects.filter(usuario= request.user.id, curso= curso.id, coevaluacion__estado='Publicada')
+        curso.info_coevaluaciones= Info_Coevaluacion.objects.filter(usuario= request.user.id,
+                                                                    curso= curso.id,
+                                                                    coevaluacion__estado='Publicada')
     contexto= {'cursos': cursos}
     return render(request,"coev/perfil-vista-dueno.html", contexto)
+
 
 def perfilVistaDoc(request):
 
     return render(request,"coev/perfil-alumno-vista-docente.html")
+
 
 def cambiarClave(request):
     if not request.user.is_authenticated or request.method != 'POST':
@@ -86,3 +96,10 @@ def cambiarClave(request):
         return JsonResponse({'ok': True})
     else:
         return JsonResponse({'ok': False})
+
+
+def fichaCoev(request,id):
+    info = Info_Coevaluacion.objects.filter(coevaluacion__id=id).first()
+    user = request.user
+
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'infoCoev': info, 'usuario':user})

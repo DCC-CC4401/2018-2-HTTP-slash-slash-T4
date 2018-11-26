@@ -9,7 +9,7 @@
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script src="{% static  "js/bootstrap.min.js" %}"></script>
         <script src="{% static "js/coeval.js" %}"></script>
-        <title>Tarea con nombre muy largo que ocupa todo el espacio - Sistema de Coevaluaciones DCC</title>
+        <title> - Sistema de Coevaluaciones DCC</title>
     </head>
     <body>
         <!-- Barra superior -->
@@ -27,11 +27,11 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Juanito Pérez</a>
+                        <a class="nav-link" href={% url 'perfilDueno' %}>{{ usuario.first_name }} {{ usuario.last_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
                     </li>
                 </ul>
             </div>
@@ -50,21 +50,21 @@
                 <div class="col-md-4 mb-3">
                     <h4 class="d-inline-block mt-1">Información</h4>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Título</h6>
-                    <span>Tarea 1</span>
+                    <span>{{ infoCoev.coevaluacion.nombre }}</span>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Curso</h6>
-                    <span>CC4401 Ingeniería de Software I 2018, Primavera</span>
+                    <span>{{ infoCoev.curso.nombre }}</span>
                     <div class="row">
                         <div class="col-6">
                             <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Fecha de inicio</h6>
-                            <span>03:53 20/10/18</span>
+                            <span>{{ infoCoev.coevaluacion.fecha_inicio }}</span>
                         </div>
                         <div class="col-6">
                             <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Fecha límite</h6>
-                            <span>23:59 27/10/18</span>
+                            <span>{{ infoCoev.coevaluacion.fecha_fin }}</span>
                         </div>
                     </div>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Estado</h6>
-                    <span>Abierta</span>
+                    <span>{{ infoCoev.coevaluacion.estado }}</span>
                 </div>
                 <!-- FIN Información -->
 
