@@ -278,6 +278,9 @@ td.td-icon {
 .tr-pendiente { background-color: #f5eebd!important; }
 .tr-pendiente:hover { background-color: #f4dbb2!important; }
 
+.clickable-rowPendiente { background-color: #f5eebd!important; }
+.clickable-rowPendiente:hover { background-color: #f4dbb2!important; }
+
 .tr-docente { background-color: #deeded!important; }
 .tr-docente:hover { background-color: #a1d4d4!important; }
 

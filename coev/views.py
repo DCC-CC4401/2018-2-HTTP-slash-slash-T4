@@ -109,10 +109,13 @@ def coevDoc(request,year,semestre,codigo,seccion,coev):
     coev=Coevaluacion.objects.filter(curso=curso.id).get(numero=coev)
     return render(request,"coev/coevaluacion-vista-docente.html",{'curso' : curso,'coev':coev, 'usuario':user})
 
-def coevAlm(request):
+def coevAlm(request,year,semestre,codigo,seccion,coev):
     user = request.user
-
-    return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user})
+    curso=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
+    coev=Coevaluacion.objects.filter(curso=curso.id).get(numero=coev)
+    equipo=Equipo.objects.get(integrante_equipo__usuario=user, integrante_equipo__activo=True)
+    integrantes=Integrante_Equipo.objects.filter(equipo=equipo).exclude(usuario=user)
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'curso' : curso,'coev':coev, 'usuario':user, 'equipo':equipo,'integrantes':integrantes})
 
 def perfilVistaDueno(request):
     if not request.user.is_authenticated:

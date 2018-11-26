@@ -9,12 +9,14 @@
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script src="{% static  "js/bootstrap.min.js" %}"></script>
         <script src="{% static "js/coeval.js" %}"></script>
+        
+        <script src="{% static "js/jq.js" %}"></script>
         <title>Sistema de Coevaluaciones DCC</title>
     </head>
     <body>
         <!-- Barra superior -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5 py-3">
-            <a class="navbar-brand" href="#">Sistema de Coevaluaciones DCC</a>
+            <a class="navbar-brand" href="/#">Sistema de Coevaluaciones DCC</a>
             <!-- Al achicar la pantalla, el menú se oculta y se vuelve desplegable mediante este botón. -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
@@ -69,7 +71,7 @@
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody>
                                 {% for coev in coevs %}
-                                <tr class="tr-pendiente"> <!-- Fila destacada como Pendiente -->
+                                <tr class="clickable-rowPendiente" data-href='/curso/{{curso.año}}/{{curso.semestre}}/{{curso.codigo}}/{{curso.seccion}}/{{coev.numero}}'> <!-- Fila destacada como Pendiente -->
                                         <!-- Fecha de inicio -->
                                         <td class="td-fecha">
                                             {{coev.fecha_inicio}}
@@ -88,8 +90,9 @@
                                         </td>
                                     </tr>
                                     {% endfor %}
-                                <tr>
+                                    
                                     {% for rest in resto%}
+                                    <tr class='clickable-row' data-href='/curso/{{curso.año}}/{{curso.semestre}}/{{curso.codigo}}/{{curso.seccion}}/{{rest.numero}}'>
                                     <td class="td-fecha">{{rest.fecha_inicio}}</td>
                                     <td>{{rest.nombre}}</td>
                                     <td class="td-fecha">{{rest.fecha_fin}}</td>
