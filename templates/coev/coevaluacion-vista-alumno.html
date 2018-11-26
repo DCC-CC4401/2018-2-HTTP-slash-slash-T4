@@ -76,23 +76,24 @@
                         <table class="table table-grupo-coeval table-striped table-hover mb-0">
                             <thead class="thead-light">
                                 <tr>
-                                    <th class="th-nombre">Nombre</th>
+                                    <th class="th-nombre">{{ equipo.nombre }}</th>
                                     <th class="th-iconos"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Estudiante 1</td>
-                                    <td class="td-icon"></td>
-                                </tr>
-                                <tr class="tr-pendiente" onclick="jumpTo('responder-coeval')">
-                                    <td>Estudiante 2 (clickeable)</td>
-                                    <td class="td-icon"><a href="#responder-coeval" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{%  static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Estudiante 3</td>
-                                    <td class="td-icon"></td>
-                                </tr>
+                                {% for i in integrantes %}
+                                    {% if usuario == i.usuario %}
+                                        <tr>
+                                            <td>{{ i.usuario.get_full_name }}</td>
+                                            <td class="td-icon"></td>
+                                        </tr>
+                                    {% else %}
+                                        <tr class="tr-pendiente" onclick="jumpTo('responder-coeval')">
+                                            <td>{{ i.usuario.get_full_name }}</td>
+                                            <td class="td-icon"><a href="#responder-coeval" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{%  static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a></td>
+                                        </tr>
+                                    {% endif %}
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

@@ -9,6 +9,7 @@ from .models import Integrante_Curso
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.http import Http404
 
 
 def auth_login(request):
@@ -78,5 +79,10 @@ def perfilVistaDoc(request):
 def fichaCoev(request,id):
     info = Info_Coevaluacion.objects.filter(coevaluacion__id=id).first()
     user = request.user
+    integrante1 = Integrante_Equipo.objects.filter(usuario=user).first()
+    if integrante1 is None:
+        raise Http404("Poll does not exist")
 
-    return render(request, "coev/coevaluacion-vista-alumno.html", {'infoCoev': info, 'usuario':user})
+    integrantes = Integrante_Equipo.objects.filter(equipo=integrante1.equipo)
+
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'infoCoev': info, 'usuario':user, 'integrantes':integrantes, 'equipo': integrante1.equipo})
