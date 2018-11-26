@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script src="{% static  "js/bootstrap.min.js" %}"></script>
+        <script src="{% static  "js/jq.js" %}"></script>
         <title>Sistema de Coevaluaciones DCC</title>
     </head>
     <body>
@@ -26,7 +27,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">{{ usuario.first_name }} {{ usuario.last_name }}</a>
+                        <a class="nav-link" href="{% url 'perfil' %}">{{ usuario.first_name }} {{ usuario.last_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
@@ -175,17 +176,27 @@
                             <tbody>
                                 {% for i in cursos %}
                                     {% if i.rol == 'Estudiante' %}
-                                <tr>
+                                    
+                                <tr class='clickable-row' data-href='/curso/{{i.curso.año}}/{{i.curso.semestre}}/{{i.curso.codigo}}/{{i.curso.seccion}}'>
+                                        
                                     <td class="td-curso-full">
+                                      
                                         <div class="cargos cargos-alumno tooltip-custom">
                                             <span class="tooltiptext"></span>
                                         </div>
                                         <span class="curso-nombre">{{ i.curso.nombre }}</span>
                                         <br>
                                         <span class="curso-codigo">{{ i.curso.codigo }} {{ i.curso.seccion }}</span>
+                                 
                                     </td>
-                                    <td>{{ i.curso.año }}{{ '-' }}{{ i.curso.seccion }}</td>
+                                
+                                   
+                                    <td>
+                                     
+                                        {{ i.curso.año }}{{ '-' }}{{ i.curso.seccion }} </td>
+                  
                                 </tr>
+                            
                                     {% endif %}
                                 {% endfor %}
                             </tbody>
