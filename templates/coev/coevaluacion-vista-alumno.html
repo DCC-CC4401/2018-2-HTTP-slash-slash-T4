@@ -9,13 +9,13 @@
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script src="{% static  "js/bootstrap.min.js" %}"></script>
         <script src="{% static "js/coeval.js" %}"></script>
-        
-        <title>Tarea con nombre muy largo que ocupa todo el espacio - Sistema de Coevaluaciones DCC</title>
+
+        <title> Ficha Coevaluación - Sistema de Coevaluaciones DCC</title>
     </head>
     <body>
         <!-- Barra superior -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5 py-3">
-            <a class="navbar-brand" href="#">Sistema de Coevaluaciones DCC</a>
+            <a class="navbar-brand" href={% url 'homeAlumnos' %}>Sistema de Coevaluaciones DCC</a>
             <!-- Al achicar la pantalla, el menú se oculta y se vuelve desplegable mediante este botón. -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
@@ -28,7 +28,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">{{ usuario.first_name }} {{ usuario.last_name }}</a>
+                        <a class="nav-link" href={% url 'perfilDueno' %}>{{ usuario.first_name }} {{ usuario.last_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
@@ -51,6 +51,7 @@
                 <div class="col-md-4 mb-3">
                     <h4 class="d-inline-block mt-1">Información</h4>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Título</h6>
+
                     <span>{{coev.nombre}}</span>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Curso</h6>
                     <span>{{curso.codigo}}-{{curso.seccion}} {{curso.nombre}} {{curso.año}}, {{curso.get_semestre_display}}</span>
@@ -66,6 +67,7 @@
                     </div>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Estado</h6>
                     <span>{{coev.estado}}</span>
+
                 </div>
                 <!-- FIN Información -->
 
@@ -77,11 +79,14 @@
                         <table class="table table-grupo-coeval table-striped table-hover mb-0">
                             <thead class="thead-light">
                                 <tr>
+
                                     <th class="th-nombre">{{equipo.nombre}}</th>
+
                                     <th class="th-iconos"></th>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 {% for integrante in integrantes %}
                                 {% if integrante in listo %}
                                 <tr>
@@ -95,6 +100,7 @@
                                     </tr>
                                 {% endif %}
                                 {% endfor %}
+
                             </tbody>
                         </table>
                     </div>

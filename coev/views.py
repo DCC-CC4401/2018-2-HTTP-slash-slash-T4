@@ -2,22 +2,25 @@ from django.shortcuts import render , redirect
 from .models import Curso
 from .models import Equipo
 from .models import Integrante_Equipo
-from .models import Admin
 from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .models import Pendiente
-
 from .models import User
 from .forms import LoginForm
-
 from .models import Pregunta
-from django.http import HttpResponseRedirect
 from itertools import chain
-from django.contrib.auth import authenticate, login, logout
 from  .forms import CoevForm
+from django.http import Http404
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+import json
+
+
 
 def auth_login(request):
+    if request.user.is_authenticated:
+        return redirect('/home/alumnos')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -35,8 +38,8 @@ def auth_login(request):
         return render(request, "coev/login.html", {'form': LoginForm(), 'error': False})
 
 def auth_logout(request):
-        logout(request)
-        return redirect('/')
+    logout(request)
+    return redirect('/')
 
 
 def homeVistaAlum(request):
@@ -45,12 +48,13 @@ def homeVistaAlum(request):
     infoCurso = Integrante_Curso.objects.filter(usuario=request.user)
 
     return render(request, "coev/home-vista-alumno.html",{'coev': infoCoev,
-                                                          'cursos': infoCurso, 'usuario':user})
-
+                                                          'cursos': infoCurso, 
+                                                          'usuario':user})
 
 def homeVistaDoc(request):
 
     return render(request, "coev/home-vista-profesor.html")
+
 
 def cursoVistaDoc(request,year,semestre,codigo,seccion):
     coev=1
@@ -106,7 +110,6 @@ def cursoVistaAlm(request,year,semestre,codigo,seccion):
     Resto=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user,info_coevaluacion__respondida=True)
     print(Resto)
     return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto, 'usuario':user})
-
 
 def coevDoc(request,year,semestre,codigo,seccion,coev):
 
@@ -166,9 +169,38 @@ def perfilVistaDueno(request):
     if not request.user.is_authenticated:
         redirect('/')
     cursos= Curso.objects.filter(integrante_curso__usuario=request.user.id)
+    for curso in cursos:
+        curso.info_coevaluaciones= Info_Coevaluacion.objects.filter(usuario= request.user.id,
+                                                                    curso= curso.id,
+                                                                    coevaluacion__estado='Publicada')
     contexto= {'cursos': cursos}
     return render(request,"coev/perfil-vista-dueno.html", contexto)
+
 
 def perfilVistaDoc(request):
 
     return render(request,"coev/perfil-alumno-vista-docente.html")
+
+
+def cambiarClave(request):
+    if not request.user.is_authenticated or request.method != 'POST':
+        return JsonResponse({'ok': False})
+    usuario= authenticate(username=request.user.get_username(),password=request.POST['clave-antigua'])
+    if usuario is not None:
+        usuario.set_password(request.POST['clave-nueva'])
+        usuario.save()
+        update_session_auth_hash(request, usuario)
+        return JsonResponse({'ok': True})
+    else:
+        return JsonResponse({'ok': False})
+
+
+def fichaCoev(request,id):
+    info = Info_Coevaluacion.objects.filter(coevaluacion__id=id).first()
+    user = request.user
+    integrante1 = Integrante_Equipo.objects.filter(usuario=user).first()
+    if integrante1 is None:
+        raise Http404("Poll does not exist")
+    integrantes = Integrante_Equipo.objects.filter(equipo=integrante1.equipo)
+
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'infoCoev': info, 'usuario':user, 'integrantes':integrantes, 'equipo': integrante1.equipo})

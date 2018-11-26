@@ -528,3 +528,7 @@ button:active > .clickable-icon {
 	60% {transform: translateY(0px) rotate(0deg)}
 	100% {transform: translateY(0px) rotate(0deg)}
 }
+
+.row-link {
+	display: table-row;
+}
