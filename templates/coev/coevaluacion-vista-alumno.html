@@ -82,19 +82,18 @@
                             </thead>
                             <tbody>
                                 {% for integrante in integrantes %}
+                                {% if integrante in listo %}
                                 <tr>
-                                    <td>{{integrante.usuario.first_name}}</td>
+                                    <td>{{integrante.usuario.first_name}} {{integrante.usuario.last_name}}</td>
                                     <td class="td-icon"></td>
                                 </tr>
-                                {% endfor %}
+                                {% else %}
                                 <tr class="tr-pendiente" onclick="jumpTo('responder-coeval')">
-                                    <td>Estudiante 2 (clickeable)</td>
-                                    <td class="td-icon"><a href="#responder-coeval" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{%  static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Estudiante 3</td>
-                                    <td class="td-icon"></td>
-                                </tr>
+                                        <td>{{integrante.usuario.first_name}} {{integrante.usuario.last_name}}</td>
+                                        <td class="td-icon"><a href="#responder-coeval" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{%  static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a></td>
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

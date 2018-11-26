@@ -5,6 +5,7 @@ from .models import Equipo
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .models import Integrante_Equipo
+from .models import Pendiente
 from .models import Admin
 
 # Register your models here.
@@ -15,3 +16,4 @@ admin.site.register(Info_Coevaluacion)
 admin.site.register(Integrante_Equipo)
 admin.site.register(Integrante_Curso)
 admin.site.register(Admin)
+admin.site.register(Pendiente)

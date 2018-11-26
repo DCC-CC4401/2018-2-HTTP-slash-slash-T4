@@ -6,8 +6,10 @@ from .models import Admin
 from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
+from .models import Pendiente
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
+from itertools import chain
 from django.contrib.auth import authenticate, login, logout
 from  .forms import CoevForm
 
@@ -115,7 +117,12 @@ def coevAlm(request,year,semestre,codigo,seccion,coev):
     coev=Coevaluacion.objects.filter(curso=curso.id).get(numero=coev)
     equipo=Equipo.objects.get(integrante_equipo__usuario=user, integrante_equipo__activo=True)
     integrantes=Integrante_Equipo.objects.filter(equipo=equipo).exclude(usuario=user)
-    return render(request, "coev/coevaluacion-vista-alumno.html", {'curso' : curso,'coev':coev, 'usuario':user, 'equipo':equipo,'integrantes':integrantes})
+    respondida=Pendiente.objects.filter(usuario=user,target__in=integrantes.values('usuario')).exclude(pendiente=False).values('target')
+    listo=integrantes.exclude(usuario__in=respondida)
+    print(listo)
+    print("\n")
+    print(integrantes)
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'curso' : curso,'coev':coev, 'usuario':user, 'equipo':equipo,'integrantes':integrantes,'listo':listo})
 
 def perfilVistaDueno(request):
     if not request.user.is_authenticated:

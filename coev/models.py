@@ -80,6 +80,14 @@ class Info_Coevaluacion(models.Model):
     def __str__(self):
         return str(self.usuario) + " " + str(self.nota)
 
+        
+class Pendiente(models.Model):
+    usuario= models.ForeignKey(User, on_delete=models.CASCADE)
+    target=models.ForeignKey(User, on_delete=models.CASCADE,related_name='%(class)s_tar')
+    pendiente = models.BooleanField(null=False)
+    notaTarget = models.FloatField(max_length=3, null=True, blank=True)
+
+
 class Integrante_Curso(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
