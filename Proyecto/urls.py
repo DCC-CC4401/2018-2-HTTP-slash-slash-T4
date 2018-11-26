@@ -24,10 +24,11 @@ urlpatterns = [
     path('home/docentes',views.homeVistaDoc, name='homeDocentes'),
     path('docentes/curso',views.cursoVistaDoc, name='cursoDocentes'),
     path('docentes/coev', views.coevDoc, name='coevDocentes'),
-    path('alumnos/coev',views.coevAlm, name='coevalumnos'),
+    path('alumnos/coev',views.coevAlm, name='coevAlumnos'),
     path('perfil',views.perfilVistaDueno, name='perfilDueno'),
     path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
     path('curso',views.cursoVistaAlm, name='cursoAlumnos'),
     path('logout', views.auth_logout, name='logout'),
+    path('coevaluacion/<int:id>/', views.fichaCoev, name='fichaCoevAlumnos')
 
 ]

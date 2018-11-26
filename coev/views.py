@@ -60,8 +60,9 @@ def coevDoc(request):
 
 def coevAlm(request):
     user = request.user
+    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user)
 
-    return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user})
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user,'coev': infoCoev})
 
 def perfilVistaDueno(request):
     if not request.user.is_authenticated:
@@ -73,3 +74,9 @@ def perfilVistaDueno(request):
 def perfilVistaDoc(request):
 
     return render(request,"coev/perfil-alumno-vista-docente.html")
+
+def fichaCoev(request,id):
+    info = Info_Coevaluacion.objects.filter(coevaluacion__id=id).first()
+    user = request.user
+
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'infoCoev': info, 'usuario':user})
