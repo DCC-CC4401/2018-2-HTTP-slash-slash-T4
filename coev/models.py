@@ -72,7 +72,7 @@ class Info_Coevaluacion(models.Model):
     coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     respondida = models.BooleanField(null=False)
-    nota = models.FloatField(max_length=3, null=True, blank=True)
+    nota = models.FloatField(max_length=3, null=True, blank=True,default=1.0)
 
     class Meta:
         unique_together = (("curso", "coevaluacion", "usuario"),)
@@ -82,11 +82,20 @@ class Info_Coevaluacion(models.Model):
 
         
 class Pendiente(models.Model):
+    coevaluacion=models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
     usuario= models.ForeignKey(User, on_delete=models.CASCADE)
     target=models.ForeignKey(User, on_delete=models.CASCADE,related_name='%(class)s_tar')
     pendiente = models.BooleanField(null=False)
     notaTarget = models.FloatField(max_length=3, null=True, blank=True)
 
+    def __str__(self):
+        return str(self.usuario) +" " + str(self.target) +" " +str(self.pendiente) 
+
+class Pregunta(models.Model):
+    coev=models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
+    pregunta=models.CharField(max_length=200, null=False, blank= True)
+    numero=models.IntegerField(null=False, blank=False, unique=False)
+    tipo=models.BooleanField(null=False)#si True: radio, else: texto
 
 class Integrante_Curso(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

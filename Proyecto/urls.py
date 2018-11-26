@@ -24,7 +24,9 @@ urlpatterns = [
     path('home/docentes',views.homeVistaDoc, name='homeDocentes'),
     path('docentes/curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaDoc, name='cursoDocentes'),
     path('docentes/curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>/<int:coev>', views.coevDoc, name='coevDocentes'),
+    path('curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>/<int:coev>/<int:id_integrante>',views.coevAlm, name='respondercoev'),
     path('curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>/<int:coev>',views.coevAlm, name='coevalumnos'),
+    
     path('perfil',views.perfilVistaDueno, name='perfil'),
     path('docentes/perfil', views.perfilVistaDoc, name='perfilDocente'),
     path('curso/<int:year>/<int:semestre>/<str:codigo>/<int:seccion>',views.cursoVistaAlm, name='cursoAlumnos'),

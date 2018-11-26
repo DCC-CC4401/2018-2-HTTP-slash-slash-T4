@@ -7,7 +7,11 @@ from .models import Coevaluacion
 from .models import Info_Coevaluacion
 from .models import Integrante_Curso
 from .models import Pendiente
+
+from .models import User
 from .forms import LoginForm
+
+from .models import Pregunta
 from django.http import HttpResponseRedirect
 from itertools import chain
 from django.contrib.auth import authenticate, login, logout
@@ -97,10 +101,10 @@ def cursoVistaAlm(request,year,semestre,codigo,seccion):
     
     user = request.user
     curso=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
-    coevs=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user).filter(info_coevaluacion__respondida=False)
+    coevs=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user, info_coevaluacion__respondida=False)
     
-    Resto=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user).exclude(info_coevaluacion__respondida=False)
-
+    Resto=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user,info_coevaluacion__respondida=True)
+    print(Resto)
     return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto, 'usuario':user})
 
 
@@ -111,18 +115,52 @@ def coevDoc(request,year,semestre,codigo,seccion,coev):
     coev=Coevaluacion.objects.filter(curso=curso.id).get(numero=coev)
     return render(request,"coev/coevaluacion-vista-docente.html",{'curso' : curso,'coev':coev, 'usuario':user})
 
-def coevAlm(request,year,semestre,codigo,seccion,coev):
+def coevAlm(request,year,semestre,codigo,seccion,coev, id_integrante=-1 ):
     user = request.user
+    
+
+    target = False
+    bol = False
     curso=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
     coev=Coevaluacion.objects.filter(curso=curso.id).get(numero=coev)
+    
     equipo=Equipo.objects.get(integrante_equipo__usuario=user, integrante_equipo__activo=True)
     integrantes=Integrante_Equipo.objects.filter(equipo=equipo).exclude(usuario=user)
+
+
+    if id_integrante!=-1:        
+        target = Integrante_Curso.objects.get(usuario__id=id_integrante)
+        bol = True
+    preguntas=Pregunta.objects.filter(coev=coev)
+    if request.method == 'POST':
+        print(request.POST['respondercoev'])
+        
+        hola= User.objects.get(id=request.POST['respondercoev'])
+        print(hola)
+        valor=  0.0
+        total=len(list(preguntas.values('numero')))
+        for pregunta in preguntas:            
+            identificador=pregunta.id
+            if pregunta.tipo:
+                valor=float(request.POST.get('inlineRadioOptions'+str(pregunta.numero)))
+                valor=valor
+                newRespondida=Pendiente.objects.get(usuario=user, target=hola,coevaluacion=coev)
+
+                newRespondida.notaTarget=valor
+                newRespondida.pendiente=False
+                newRespondida.save()
+                infoT=Info_Coevaluacion.objects.get(usuario=hola,curso=curso, coevaluacion=coev)
+                infoT.nota+=(valor-1)/total
+                infoT.save()
+                resp=list(Pendiente.objects.filter(usuario=user,target__in=integrantes.values('usuario'),pendiente=True ))
+                if len(resp)==0:
+
+                    infoU=Info_Coevaluacion.objects.get(usuario=user,curso=curso, coevaluacion=coev)
+                    infoU.respondida=True
+                    infoU.save()
     respondida=Pendiente.objects.filter(usuario=user,target__in=integrantes.values('usuario')).exclude(pendiente=False).values('target')
     listo=integrantes.exclude(usuario__in=respondida)
-    print(listo)
-    print("\n")
-    print(integrantes)
-    return render(request, "coev/coevaluacion-vista-alumno.html", {'curso' : curso,'coev':coev, 'usuario':user, 'equipo':equipo,'integrantes':integrantes,'listo':listo})
+    return render(request, "coev/coevaluacion-vista-alumno.html", {'curso' : curso,'coev':coev,'preguntas':preguntas, 'usuario':user, 'equipo':equipo,'integrantes':integrantes,'listo':listo,'target':target, 'bol': bol})
 
 def perfilVistaDueno(request):
     if not request.user.is_authenticated:
