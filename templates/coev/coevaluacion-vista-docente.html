@@ -23,18 +23,16 @@
             </button>
 
             <!-- Menú superior-derecha -->
+            <!-- Menú superior-derecha -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <form class="nav-link form-inline my-2 my-lg-0">
-                        <input class="form-control" type="search" placeholder="Buscar alumno..." aria-label="Buscar alumno">
-                    </form>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Juanito Pérez</a>
+                        <a class="nav-link" href="{% url 'perfil' %}">{{ usuario.first_name }} {{ usuario.last_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
                     </li>
                 </ul>
             </div>
@@ -53,19 +51,19 @@
                 <div class="col-md-4 mb-3">
                     <h4 class="d-inline-block mt-1">Información</h4>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Título</h6>
-                    <span>Tarea 1</span>
+                    <span>{{coev.nombre}}</span>
                     <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Curso</h6>
-                    <span>CC4401 Ingeniería de Software I 2018, Primavera</span>
+                    <span>{{coev.curso.codigo}} {{coev.curso.nombre}} {{coev.curso.año}}, {{coev.curso.semestre}}</span>
                     <div class="row">
                         <div class="col-6">
                             <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Fecha de inicio</h6>
-                            <span>03:53 20/10/18
+                            <span>{{coev.hora_inicio|time:"H:i"}} {{coev.fecha_inicio|date:"SHORT_DATE_FORMAT"}}
                                 <a href="#" title="Editar fecha de inicio"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}" alt="Editar fecha de inicio" width="13" height="13"></a>
                             </span>
                         </div>
                         <div class="col-6">
                             <h6 class="text-muted mt-3 mb-0 pb-1 border-bottom">Fecha límite</h6>
-                            <span>23:59 27/10/18
+                            <span>{{coev.hora_fin|time:"H:i"}} {{coev.fecha_fin|date:"SHORT_DATE_FORMAT"}}
                                 <a href="#" title="Editar fecha límite"><img class="clickable-icon mb-1" src="{% static "icon/edit-icon.png" %}" alt="Editar fecha límite" width="13" height="13"></a>
                             </span>
                         </div>

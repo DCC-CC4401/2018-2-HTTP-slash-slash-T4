@@ -47,7 +47,8 @@ def homeVistaDoc(request):
     return render(request, "coev/home-vista-profesor.html")
 
 def cursoVistaDoc(request,year,semestre,codigo,seccion):
-    
+    coev=1
+    bol=False
     user = request.user
     ramo=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
     validator=Integrante_Curso.objects.filter(curso=ramo).exclude(rol="Estudiante").filter(usuario=request.user)
@@ -71,11 +72,21 @@ def cursoVistaDoc(request,year,semestre,codigo,seccion):
                 nuevaCoev.save()
             if 'pk' in request.POST:
                 coev=Coevaluacion.objects.get(id=request.POST['pk'])
-                print(request.POST['pk'])
                 coev.estado="Publicada"
                 coev.save()
+            if 'edit' in request.POST:                
+                coev=Coevaluacion.objects.get(id=request.POST['edit'])
+                bol=True
+            if 'ModificarCoev' in request.POST:
+                coev=Coevaluacion.objects.get(id=request.POST['ModificarCoev'])
+                coev.fecha_fin=request.POST['fecha_fin']
+                coev.fecha_inicio=request.POST['fecha_inicio']
+                coev.hora_fin=request.POST['hora_fin']
+                coev.hora_inicio=request.POST['hora_inicio']
+                coev.nombre=request.POST['nombreCoev']
+                coev.save()
         Coevs = Coevaluacion.objects.filter(curso=ramo).order_by('-numero')
-        return render(request, "coev/curso-vista-docente.html",{'curso':ramo,'coevs':Coevs, 'usuario':user})
+        return render(request, "coev/curso-vista-docente.html",{'curso':ramo,'coevs':Coevs, 'usuario':user,'coev':coev,'bol':bol})
     else:
         return redirect('/home/alumnos')
 
@@ -91,9 +102,12 @@ def cursoVistaAlm(request,year,semestre,codigo,seccion):
     return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto, 'usuario':user})
 
 
-def coevDoc(request):
+def coevDoc(request,year,semestre,codigo,seccion,coev):
 
-    return render(request,"coev/coevaluacion-vista-docente.html")
+    user = request.user
+    curso=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
+    coev=Coevaluacion.objects.filter(curso=curso.id).get(numero=coev)
+    return render(request,"coev/coevaluacion-vista-docente.html",{'curso' : curso,'coev':coev, 'usuario':user})
 
 def coevAlm(request):
     user = request.user

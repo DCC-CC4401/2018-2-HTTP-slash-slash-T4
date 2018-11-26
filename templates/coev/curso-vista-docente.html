@@ -39,7 +39,8 @@
         <!-- FIN Barra superior -->
     
         <!-- Cuerpo -->
-        <div class="container"> <!-- Contenedor responsivo de Bootstrap, se adapta a la pantalla usando columnas. -->
+        <div class="container">
+             <!-- Contenedor responsivo de Bootstrap, se adapta a la pantalla usando columnas. -->
    <!-- Formulario para agregar una coevaluación. -->
             <!-- Permanece oculto hasta apretar el botón correspondiente. -->
             <div id="add-coev-form" class="mb-4">
@@ -77,7 +78,46 @@
                     <hr/>
                 </div>
                 <!-- FIN Formulario agregar coevaluación -->
-    
+    <!-- Formulario para modificar una coevaluación. -->
+            {% if bol %}
+            <div class="mb-4">
+                <h4 class="mt-3">Modificar Coevaluación</h4>
+                <form method="POST" id="crearCoev">
+                        {% csrf_token %}
+                        <input type="hidden" name="ModificarCoev" value="{{coev.id}}" />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="titleCoev">Título de la coevaluación</label>
+                            <input type="text" class="form-control" id="titleCoev" name= "nombreCoev" value="{{coev.nombre}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="dateStartCoev">Fecha de inicio</label>
+                            <input type="date" class="form-control" id="dateStartCoev" name= "fecha_inicio" value="{{coev.fecha_inicio|date:'Y-m-d'}}">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="timeStartCoev">Hora de inicio</label>
+                            <input type="time" class="form-control" id="timeStartCoev" name= "hora_inicio" value="{{coev.hora_inicio|time:"H:i"}}">
+                        </div>
+                        <div class="form-group col-3 offset-1">
+                            <label for="dateEndCoev">Fecha límite</label>
+                            <input type="date" class="form-control" id="dateEndCoev" name= "fecha_fin" value="{{coev.fecha_fin|date:'Y-m-d'}}">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="timeEndCoev">Hora límite</label>
+                            <input type="time" class="form-control" id="timeEndCoev" name= "hora_fin" value="{{coev.hora_fin|time:"H:i"}}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom"  name="agrega">Confirmar</button>
+                    <form action="#">
+                        <input type="submit" class="btn btn-cancel" value="Cancelar" />
+                    </form>
+                </form>
+                <hr/>
+            </div>
+            <!-- FIN Formulario agregar coevaluación -->
+            {% endif %}
             <h3 class="d-inline-block page-title">Ficha de Curso</h3>
             <h5 class="mb-3">
                 <div class="cargos cargos-profesor"></div>
@@ -109,13 +149,14 @@
                                 <tr>
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        {{coev.hora_inicio}} {{coev.fecha_inicio}}
+                                        {{coev.hora_inicio|time:"H:i"}} {{coev.fecha_inicio}}
+                                    
                                     </td>
                                     <!-- Título de coevaluación -->
                                     <td>{{coev.nombre}}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        {{coev.hora_fin}} {{coev.fecha_fin}}
+                                        {{coev.hora_fin|time:"H:i"}} {{coev.fecha_fin}}
                                     </td>
                                     <!-- Estado -->
                                     <td>{{coev.estado}}</td>
@@ -139,6 +180,15 @@
                                             <a href="#" title="Exportar resultados"><img class="clickable-icon export-icon" src="{% static "icon/export-icon.png" %}" alt="Exportar resultados" width="28" height="28"></a>
                                         </td>
                                     {% endif %}
+                                    <td class="td-icon">
+                                    <form action="" method="POST">
+                                        
+                                {% csrf_token %}
+                                    <input type="hidden" name="edit" value="{{coev.id}}" />
+                                     <a href="#" title="Modificar Coevaluación">
+                                         <input  class="clickable-icon mb-1" type="image" name="modificar" src="{% static "icon/edit-icon.png" %}" alt="Modificar Coevaluación"  width="13" height="13"></a>
+                                    </form>
+                                        </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
