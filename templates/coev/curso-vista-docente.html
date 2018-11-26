@@ -24,21 +24,18 @@
 
             <!-- Menú superior-derecha -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <form class="nav-link form-inline my-2 my-lg-0">
-                        <input class="form-control" type="search" placeholder="Buscar alumno..." aria-label="Buscar alumno">
-                    </form>
-                    <li class="divider-vertical"></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Juanito Pérez</a>
-                    </li>
-                    <li class="divider-vertical"></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesión</a>
-                    </li>
-                 </ul>
-            </div>
-        </nav>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="divider-vertical"></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'perfil' %}">{{ usuario.first_name }} {{ usuario.last_name }}</a>
+                        </li>
+                        <li class="divider-vertical"></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         <!-- FIN Barra superior -->
     
         <!-- Cuerpo -->

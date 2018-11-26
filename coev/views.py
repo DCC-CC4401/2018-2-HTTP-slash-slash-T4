@@ -48,6 +48,7 @@ def homeVistaDoc(request):
 
 def cursoVistaDoc(request,year,semestre,codigo,seccion):
     
+    user = request.user
     ramo=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
     validator=Integrante_Curso.objects.filter(curso=ramo).exclude(rol="Estudiante").filter(usuario=request.user)
     if validator:
@@ -74,19 +75,20 @@ def cursoVistaDoc(request,year,semestre,codigo,seccion):
                 coev.estado="Publicada"
                 coev.save()
         Coevs = Coevaluacion.objects.filter(curso=ramo).order_by('-numero')
-        return render(request, "coev/curso-vista-docente.html",{'curso':ramo,'coevs':Coevs})
+        return render(request, "coev/curso-vista-docente.html",{'curso':ramo,'coevs':Coevs, 'usuario':user})
     else:
         return redirect('/home/alumnos')
 
 
 def cursoVistaAlm(request,year,semestre,codigo,seccion):
-
+    
+    user = request.user
     curso=Curso.objects.get(codigo=codigo,año=year,semestre=semestre,seccion=seccion)
     coevs=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user).filter(info_coevaluacion__respondida=False)
     
     Resto=Coevaluacion.objects.filter(curso=curso.id).filter(info_coevaluacion__usuario=request.user).exclude(info_coevaluacion__respondida=False)
 
-    return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto})
+    return render(request, "coev/curso-vista-alumno.html",{'curso' : curso,'coevs':coevs,'resto':Resto, 'usuario':user})
 
 
 def coevDoc(request):
