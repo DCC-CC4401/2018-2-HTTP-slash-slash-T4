@@ -44,7 +44,7 @@ def auth_logout(request):
 
 def homeVistaAlum(request):
     user = request.user
-    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user).order_by('-coevaluacion__numero')
+    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user).order_by('-coevaluacion__id')
     infoCurso = Integrante_Curso.objects.filter(usuario=request.user)
 
     return render(request, "coev/home-vista-alumno.html",{'coev': infoCoev,
