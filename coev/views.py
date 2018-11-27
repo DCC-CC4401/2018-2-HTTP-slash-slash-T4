@@ -80,6 +80,29 @@ def cursoVistaDoc(request,year,semestre,codigo,seccion):
                 else:
                     nuevaCoev.numero=listaCoev[-1]+1
                 nuevaCoev.save()
+                equipos=Equipo.objects.filter(curso=ramo)
+                for equipo in equipos:
+                    integrantesActivos = Integrante_Equipo.objects.filter(activo=True, equipo=equipo)
+                    for usuar in integrantesActivos:
+                        usuari=User.objects.get(username=usuar)
+                        otrosIntegrantes=integrantesActivos.exclude(usuario=usuari)
+                        nuevaInfo=Info_Coevaluacion()
+                        nuevaInfo.curso=ramo
+                        nuevaInfo.coevaluacion=nuevaCoev
+                        nuevaInfo.nota=1.0
+                        nuevaInfo.respondida=False
+                        nuevaInfo.usuario=usuar.usuario
+                        nuevaInfo.save()
+                        for otros in otrosIntegrantes:
+                            #otros.
+                            #otro=User.objects.get(id=otros) 
+                            nuevaPendiente=Pendiente()
+                            nuevaPendiente.coevaluacion=nuevaCoev
+                            nuevaPendiente.notaTarget=0.0
+                            nuevaPendiente.target=otros.usuario
+                            nuevaPendiente.usuario=usuari
+                            nuevaPendiente.pendiente=True
+                            nuevaPendiente.save()
             if 'pk' in request.POST:
                 coev=Coevaluacion.objects.get(id=request.POST['pk'])
                 coev.estado="Publicada"
