@@ -66,7 +66,8 @@
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody id="body-tabla-coev">
                                 {% for i in coev %}
-                                <tr data-id-coev="{{ i.coevaluacion.id }}">
+                                {% if i.coevaluacion.estado == 'Abierta' and i.respondida == False %}
+                                <tr class=clickable-rowPendiente data-href="{% url 'coevalumnos' year=i.curso.año semestre=i.curso.semestre codigo=i.curso.codigo seccion=i.curso.seccion coev=i.coevaluacion.numero %}">
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
                                         {{ i.coevaluacion.fecha_inicio }}
@@ -91,10 +92,9 @@
                                     </td>
                                     <!-- Estado -->
                                     <td>{{ i.coevaluacion.estado }}</td>
-                                    {% if i.coevaluacion.estado == 'Abierta' and i.respondida == False %}
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
-                                        <a href="{% url 'fichaCoevAlumnos' i.coevaluacion.id %}" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
+                                            <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                      {% endif %}
                                 {% endfor %}
