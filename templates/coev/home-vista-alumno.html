@@ -96,6 +96,33 @@
                                     <td class="td-icon">
                                             <a href="#" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static "icon/answer-icon.png" %}" alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
+
+                                    {% else %}
+                                    <tr class=clickable-row data-href="{% url 'coevalumnos' year=i.curso.año semestre=i.curso.semestre codigo=i.curso.codigo seccion=i.curso.seccion coev=i.coevaluacion.numero %}">
+                                            <!-- Fecha de inicio -->
+                                            <td class="td-fecha">
+                                                {{ i.coevaluacion.fecha_inicio }}
+                                            </td>
+                                            <!-- Título de coevaluación -->
+                                            <td>{{ i.coevaluacion.nombre }}</td>
+                                            <!-- Curso, con ícono de rol, nombre y código -->
+                                            <td class="td-curso-full">
+        
+                                                <div class="cargos cargos-alumno tooltip-custom">
+                                                    <span class="tooltiptext"></span>
+                                                </div>
+                                                <span class="curso-nombre">{{ i.curso.nombre }}</span>
+                                                <br>
+                                                <span class="curso-codigo">{{ i.curso.codigo }}</span>
+                                            </td>
+                                            <!-- Semestre -->
+                                            <td>{{ i.curso.año }}-{{ i.curso.semestre }}</td>
+                                            <!-- Fecha de término -->
+                                            <td class="td-fecha">
+                                                {{ i.coevaluacion.fecha_fin }}
+                                            </td>
+                                            <!-- Estado -->
+                                            <td>{{ i.coevaluacion.estado }}</td>
                                      {% endif %}
                                 {% endfor %}
                                 <!-- Filas vacías, placeholder -->
