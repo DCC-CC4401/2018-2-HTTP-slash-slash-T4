@@ -94,7 +94,7 @@
                                     {% if i.coevaluacion.estado == 'Abierta' and i.respondida == False %}
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
-                                        <a href="{% url 'fichaCoevAlumnos' i.coevaluacion.id %}" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
+                                        <a href="{% url 'coevalumnos' year=curso.año semestre=curso.semestre codigo=curso.codigo seccion=curso.seccion coev=coev.numero  %}"> title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                      {% endif %}
                                 {% endfor %}
@@ -161,7 +161,6 @@
                                         {{ i.curso.año }}{{ '-' }}{{ i.curso.seccion }} </td>
                   
                                 </tr>
-           
 
                                 {% endfor %}
                             </tbody>
