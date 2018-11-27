@@ -39,7 +39,7 @@ def auth_logout(request):
 
 def homeVistaAlum(request):
     user = request.user
-    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user)
+    infoCoev = Coevaluacion.objects.filter(info_coevaluacion__evaluador=user)
     infoCurso = Integrante_Curso.objects.filter(usuario=request.user)
 
     return render(request, "coev/home-vista-alumno.html",{'coev': infoCoev,
@@ -67,7 +67,7 @@ def coevDoc(request):
 
 def coevAlm(request):
     user = request.user
-    infoCoev = Info_Coevaluacion.objects.filter(usuario=request.user)
+    infoCoev = Info_Coevaluacion.objects.filter(evaluador=request.user)
 
     return render(request, "coev/coevaluacion-vista-alumno.html", {'usuario': user,'coev': infoCoev})
 
@@ -77,7 +77,7 @@ def perfilVistaDueno(request):
         redirect('/')
     cursos= Curso.objects.filter(integrante_curso__usuario=request.user.id)
     for curso in cursos:
-        curso.info_coevaluaciones= Info_Coevaluacion.objects.filter(usuario= request.user.id,
+        curso.info_coevaluaciones= Info_Coevaluacion.objects.filter(evaluador= request.user.id,
                                                                     curso= curso.id,
                                                                     coevaluacion__estado='Publicada')
     contexto= {'cursos': cursos}

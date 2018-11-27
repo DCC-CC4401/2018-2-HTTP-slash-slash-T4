@@ -26,7 +26,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href={% url 'perfilDueno' %}>{{ usuario.first_name }} {{ usuario.last_name }}</a>
+                        <a class="nav-link" href={% url 'perfilDueno' %}>{{ usuario.get_full_name }}</a>
                     </li>
                     <li class="divider-vertical"></li>
                     <li class="nav-item">
@@ -64,13 +64,13 @@
                             <!-- Cuerpo de tabla (Table Data) -->
                             <tbody id="body-tabla-coev">
                                 {% for i in coev %}
-                                <tr data-id-coev="{{ i.coevaluacion.id }}">
+                                <tr data-id-coev="{{ i.id }}">
                                     <!-- Fecha de inicio -->
                                     <td class="td-fecha">
-                                        {{ i.coevaluacion.fecha_inicio }}
+                                        {{ i.fecha_inicio }}
                                     </td>
                                     <!-- Título de coevaluación -->
-                                    <td>{{ i.coevaluacion.nombre }}</td>
+                                    <td>{{ i.nombre }}</td>
                                     <!-- Curso, con ícono de rol, nombre y código -->
                                     <td class="td-curso-full">
 
@@ -85,14 +85,14 @@
                                     <td>{{ i.curso.año }}-{{ i.curso.semestre }}</td>
                                     <!-- Fecha de término -->
                                     <td class="td-fecha">
-                                        {{ i.coevaluacion.fecha_fin }}
+                                        {{ i.fecha_fin }}
                                     </td>
                                     <!-- Estado -->
-                                    <td>{{ i.coevaluacion.estado }}</td>
-                                    {% if i.coevaluacion.estado == 'Abierta' and i.respondida == False %}
+                                    <td>{{ i.estado }}</td>
+                                    {% if i.estado == 'Abierta' and i.respondida == False %}
                                     <!-- Ícono de acción (responder) -->
                                     <td class="td-icon">
-                                        <a href="{% url 'fichaCoevAlumnos' i.coevaluacion.id %}" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
+                                        <a href="{% url 'fichaCoevAlumnos' i.id %}" title="Responder coevaluación"><img class="clickable-icon answer-icon wiggle" src="{% static  "icon/answer-icon.png" %}"  alt="Responder coevaluación" width="28" height="28"></a>
                                     </td>
                                      {% endif %}
                                 {% endfor %}

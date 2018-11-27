@@ -69,16 +69,17 @@ class Coevaluacion(models.Model):
 class Info_Coevaluacion(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     coevaluacion = models.ForeignKey(Coevaluacion, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    evaluador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='evaluador')
+    evaluado = models.ForeignKey(User, on_delete=models.CASCADE, related_name='evaluado')
     respondida = models.BooleanField(null=False)
     nota = models.FloatField(max_length=3, null=True, blank=True)
 
     class Meta:
-        unique_together = (("curso", "coevaluacion", "usuario"),)
+        unique_together = (("curso", "coevaluacion", "evaluador","evaluado"),)
         verbose_name_plural = "Info coevaluaciones"
 
     def __str__(self):
-        return str(self.usuario) + " " + str(self.nota)
+        return str(self.evaluador) + "= " + str(self.evaluado) + " " + str(self.nota)
 
 
 class Integrante_Curso(models.Model):
